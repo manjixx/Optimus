@@ -1,0 +1,76 @@
+{
+  "scenario_id": "holiday_scenario_001",
+  "scenario_type": "holiday",
+  "description": "Holiday traffic patterns with reduced activity and special considerations",
+  "traffic_multipliers": {
+    "weekday": 0.6,
+    "weekend": 0.5,
+    "holiday": 0.4,
+    "peak_hours": 0.8,
+    "off_peak_hours": 0.3
+  },
+  "uncertainty_level": "medium",
+  "noise_parameters": {
+    "error_rate_noise_std": 0.01,
+    "latency_noise_std": 10,
+    "traffic_noise_std": 0.05,
+    "correlation_factor": 0.2
+  },
+  "trend_parameters": {
+    "growth_rate": -0.002,
+    "seasonality_amplitude": 0.2,
+    "seasonality_period": 365,
+    "trend_volatility": 0.1
+  },
+  "event_impacts": {
+    "special_events": [
+      {
+        "event_name": "Chinese_New_Year",
+        "start_date": "2023-01-21",
+        "end_date": "2023-01-27",
+        "traffic_multiplier": 0.3,
+        "description": "春节假期，流量大幅下降"
+      },
+      {
+        "event_name": "National_Day",
+        "start_date": "2023-10-01",
+        "end_date": "2023-10-07",
+        "traffic_multiplier": 0.4,
+        "description": "国庆假期，流量下降"
+      }
+    ],
+    "maintenance_windows": [
+      {
+        "start_time": "2023-01-22 02:00:00",
+        "end_time": "2023-01-22 08:00:00",
+        "impact_level": "low",
+        "description": "春节期间维护窗口"
+      }
+    ],
+    "external_factors": [
+      {
+        "factor_name": "reduced_staff",
+        "probability": 1.0,
+        "impact_multiplier": 0.8,
+        "description": "节假日期间人员减少"
+      }
+    ]
+  },
+  "performance_baseline": {
+    "error_rate": 0.008,
+    "latency_p95": 120,
+    "availability": 0.998
+  },
+  "holiday_considerations": {
+    "release_restrictions": true,
+    "emergency_only_releases": true,
+    "extended_monitoring": true,
+    "reduced_batch_sizes": true
+  },
+  "simulation_parameters": {
+    "duration_days": 30,
+    "time_step_hours": 1,
+    "random_seed": 456
+  }
+}
+

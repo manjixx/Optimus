@@ -1,0 +1,80 @@
+{
+  "version_categories": {
+    "major": {
+      "description": "Major version releases with significant new features",
+      "typical_impact": "high",
+      "rollback_frequency": 0.15,
+      "examples": ["v13.0.0", "v14.0.0"]
+    },
+    "minor": {
+      "description": "Minor version releases with new features and improvements",
+      "typical_impact": "medium",
+      "rollback_frequency": 0.08,
+      "examples": ["v12.5.0", "v12.6.0", "v12.7.0"]
+    },
+    "patch": {
+      "description": "Patch releases with bug fixes and minor improvements",
+      "typical_impact": "low",
+      "rollback_frequency": 0.03,
+      "examples": ["v12.5.1", "v12.6.2"]
+    }
+  },
+  "feature_impact_factors": {
+    "ui_changes": {
+      "weight": 0.3,
+      "description": "User interface modifications"
+    },
+    "api_changes": {
+      "weight": 0.4,
+      "description": "Backend API modifications"
+    },
+    "database_changes": {
+      "weight": 0.5,
+      "description": "Database schema or data changes"
+    },
+    "third_party_integrations": {
+      "weight": 0.35,
+      "description": "External service integrations"
+    },
+    "performance_optimizations": {
+      "weight": 0.2,
+      "description": "Performance improvements"
+    }
+  },
+  "risk_indicators": {
+    "high_risk": {
+      "criteria": [
+        "database_migrations",
+        "breaking_api_changes",
+        "new_third_party_dependencies",
+        "major_ui_redesign"
+      ],
+      "recommended_batch_size": 0.1
+    },
+    "medium_risk": {
+      "criteria": [
+        "new_features",
+        "api_additions",
+        "ui_enhancements",
+        "performance_improvements"
+      ],
+      "recommended_batch_size": 0.2
+    },
+    "low_risk": {
+      "criteria": [
+        "bug_fixes",
+        "minor_ui_adjustments",
+        "documentation_updates",
+        "configuration_changes"
+      ],
+      "recommended_batch_size": 0.3
+    }
+  },
+  "rollback_triggers": {
+    "error_rate_threshold": 0.1,
+    "latency_increase_threshold": 0.2,
+    "user_complaint_threshold": 100,
+    "system_availability_threshold": 0.99
+  }
+}
+

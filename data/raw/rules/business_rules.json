@@ -1,0 +1,62 @@
+{
+  "release_windows": {
+    "allowed_days": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+    "blackout_periods": ["Chinese_New_Year", "National_Day", "Spring_Festival"],
+    "max_daily_releases": 2,
+    "min_batch_interval_hours": 6,
+    "preferred_release_times": {
+      "start_time": "09:00",
+      "end_time": "17:00",
+      "timezone": "Asia/Shanghai"
+    }
+  },
+  "performance_constraints": {
+    "max_error_rate_increase": 0.05,
+    "max_latency_increase": 0.1,
+    "min_service_availability": 0.995,
+    "max_concurrent_releases": 1,
+    "monitoring_period_minutes": 30
+  },
+  "rollback_policies": {
+    "error_rate_threshold": 0.1,
+    "latency_threshold": 0.2,
+    "consecutive_failure_limit": 3,
+    "user_complaint_threshold": 100,
+    "auto_rollback_enabled": true,
+    "rollback_timeout_minutes": 60
+  },
+  "batch_sizing_rules": {
+    "min_batch_size": 0.05,
+    "max_batch_size": 0.5,
+    "incremental_increase": 0.1,
+    "success_threshold_for_increase": 0.95,
+    "failure_threshold_for_decrease": 0.1
+  },
+  "quality_gates": {
+    "pre_release_tests": {
+      "unit_test_coverage": 0.8,
+      "integration_test_pass_rate": 0.95,
+      "performance_test_pass": true,
+      "security_scan_pass": true
+    },
+    "post_release_monitoring": {
+      "error_rate_monitoring_duration": 60,
+      "latency_monitoring_duration": 60,
+      "user_feedback_monitoring_duration": 120
+    }
+  },
+  "communication_rules": {
+    "stakeholder_notification": {
+      "pre_release_notice_hours": 24,
+      "post_release_summary_hours": 2,
+      "rollback_notification_minutes": 5
+    },
+    "documentation_requirements": [
+      "release_notes",
+      "rollback_procedures",
+      "monitoring_dashboards",
+      "contact_information"
+    ]
+  }
+}
+

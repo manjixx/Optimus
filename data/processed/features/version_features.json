@@ -1,0 +1,99 @@
+{
+  "version_features": {
+    "v12.5.0": {
+      "version_type": "minor",
+      "feature_count": 15,
+      "bug_fix_count": 8,
+      "lines_of_code_changed": 2500,
+      "database_migrations": 2,
+      "api_changes": {
+        "new_endpoints": 3,
+        "modified_endpoints": 5,
+        "deprecated_endpoints": 1
+      },
+      "ui_changes": {
+        "new_screens": 2,
+        "modified_screens": 8,
+        "removed_screens": 0
+      },
+      "third_party_dependencies": {
+        "new_dependencies": 1,
+        "updated_dependencies": 3,
+        "removed_dependencies": 0
+      },
+      "risk_score": 0.35,
+      "complexity_score": 0.42,
+      "testing_coverage": 0.85
+    },
+    "v12.6.0": {
+      "version_type": "minor",
+      "feature_count": 12,
+      "bug_fix_count": 12,
+      "lines_of_code_changed": 1800,
+      "database_migrations": 1,
+      "api_changes": {
+        "new_endpoints": 2,
+        "modified_endpoints": 4,
+        "deprecated_endpoints": 0
+      },
+      "ui_changes": {
+        "new_screens": 1,
+        "modified_screens": 6,
+        "removed_screens": 0
+      },
+      "third_party_dependencies": {
+        "new_dependencies": 0,
+        "updated_dependencies": 2,
+        "removed_dependencies": 0
+      },
+      "risk_score": 0.28,
+      "complexity_score": 0.38,
+      "testing_coverage": 0.88
+    },
+    "v13.0.0": {
+      "version_type": "major",
+      "feature_count": 35,
+      "bug_fix_count": 20,
+      "lines_of_code_changed": 8500,
+      "database_migrations": 5,
+      "api_changes": {
+        "new_endpoints": 8,
+        "modified_endpoints": 12,
+        "deprecated_endpoints": 3
+      },
+      "ui_changes": {
+        "new_screens": 5,
+        "modified_screens": 15,
+        "removed_screens": 2
+      },
+      "third_party_dependencies": {
+        "new_dependencies": 3,
+        "updated_dependencies": 8,
+        "removed_dependencies": 1
+      },
+      "risk_score": 0.65,
+      "complexity_score": 0.78,
+      "testing_coverage": 0.82
+    }
+  },
+  "feature_impact_weights": {
+    "database_migrations": 0.4,
+    "api_changes": 0.3,
+    "ui_changes": 0.2,
+    "third_party_dependencies": 0.3,
+    "lines_of_code_changed": 0.15,
+    "feature_count": 0.1,
+    "bug_fix_count": 0.05
+  },
+  "risk_calculation": {
+    "base_risk": 0.1,
+    "version_type_multiplier": {
+      "major": 1.5,
+      "minor": 1.0,
+      "patch": 0.5
+    },
+    "complexity_threshold": 0.5,
+    "testing_coverage_threshold": 0.8
+  }
+}
+

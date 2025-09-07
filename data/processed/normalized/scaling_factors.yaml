@@ -1,0 +1,110 @@
+# 数据标准化参数配置
+scaling:
+  # 标准化方法
+  methods:
+    min_max:
+      description: "Min-Max标准化，将数据缩放到[0,1]区间"
+      formula: "(x - min) / (max - min)"
+      use_cases: ["traffic_metrics", "performance_indicators"]
+    
+    z_score:
+      description: "Z-score标准化，基于均值和标准差"
+      formula: "(x - mean) / std"
+      use_cases: ["error_rates", "latency_metrics"]
+    
+    robust_scaling:
+      description: "基于中位数和四分位距的鲁棒标准化"
+      formula: "(x - median) / IQR"
+      use_cases: ["outlier_prone_metrics"]
+  
+  # 特征标准化参数
+  features:
+    request_count:
+      method: "min_max"
+      min_value: 1000000
+      max_value: 10000000
+      target_range: [0, 1]
+    
+    error_rate:
+      method: "z_score"
+      mean: 0.015
+      std: 0.008
+      target_range: [-3, 3]
+    
+    latency_p95:
+      method: "min_max"
+      min_value: 50
+      max_value: 500
+      target_range: [0, 1]
+    
+    traffic_trend_7d:
+      method: "min_max"
+      min_value: 0.5
+      max_value: 1.5
+      target_range: [0, 1]
+    
+    traffic_seasonality_30d:
+      method: "min_max"
+      min_value: 0.8
+      max_value: 1.2
+      target_range: [0, 1]
+  
+  # 时间序列特征标准化
+  temporal_features:
+    day_of_week:
+      method: "one_hot"
+      categories: [0, 1, 2, 3, 4, 5, 6]
+    
+    month:
+      method: "cyclic_encoding"
+      period: 12
+    
+    hour:
+      method: "cyclic_encoding"
+      period: 24
+    
+    is_holiday:
+      method: "binary"
+      values: [0, 1]
+    
+    is_weekend:
+      method: "binary"
+      values: [0, 1]
+  
+  # 版本特征标准化
+  version_features:
+    version_type:
+      method: "ordinal"
+      mapping:
+        patch: 0
+        minor: 1
+        major: 2
+    
+    risk_score:
+      method: "min_max"
+      min_value: 0.0
+      max_value: 1.0
+      target_range: [0, 1]
+    
+    complexity_score:
+      method: "min_max"
+      min_value: 0.0
+      max_value: 1.0
+      target_range: [0, 1]
+  
+  # 标准化质量控制
+  quality_control:
+    outlier_detection:
+      method: "iqr"
+      threshold: 1.5
+      action: "cap"
+    
+    missing_value_handling:
+      method: "interpolation"
+      fallback: "mean"
+    
+    validation:
+      check_distribution: true
+      check_range: true
+      check_correlation: true
+

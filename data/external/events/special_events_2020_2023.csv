@@ -1,0 +1,12 @@
+event_id,event_name,start_date,end_date,regions_affected,traffic_impact,description,event_type,expected_traffic_multiplier
+EV202301,Spring_Festival_Gala,2023-01-21,2023-01-21,"CN-North,CN-East",high,"Annual Spring Festival TV gala",entertainment,3.0
+EV202302,Double_11_Shopping,2023-11-11,2023-11-11,"CN-North,CN-South,CN-East,CN-West",very_high,"Annual shopping festival",commerce,5.0
+EV202303,National_Congress,2023-03-05,2023-03-15,"CN-North",medium,"Annual political meeting",political,1.5
+EV202304,World_Cup_Final,2023-12-18,2023-12-18,"CN-North,CN-East",high,"Football World Cup final",sports,2.5
+EV202305,Black_Friday,2023-11-24,2023-11-24,"CN-North,CN-East",high,"Black Friday shopping event",commerce,2.8
+EV202306,New_Year_Countdown,2023-12-31,2023-12-31,"CN-North,CN-South,CN-East,CN-West",very_high,"New Year countdown celebration",celebration,4.0
+EV202307,Summer_Solstice,2023-06-21,2023-06-21,"CN-North",low,"Summer solstice celebration",cultural,1.2
+EV202308,Mid_Autumn_Festival,2023-09-29,2023-09-29,"CN-North,CN-South,CN-East,CN-West",medium,"Mid-Autumn Festival celebration",cultural,1.8
+EV202309,National_Examination,2023-06-07,2023-06-08,"CN-North,CN-South,CN-East,CN-West",medium,"National college entrance examination",education,1.6
+EV202310,Technology_Conference,2023-09-15,2023-09-17,"CN-North",low,"Major technology conference",business,1.3
+

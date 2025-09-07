@@ -1,0 +1,91 @@
+{
+  "global_holidays": {
+    "2023": {
+      "international": [
+        {
+          "date": "2023-01-01",
+          "name": "New Year's Day",
+          "regions": ["Global"],
+          "impact_level": "medium",
+          "description": "International New Year celebration"
+        },
+        {
+          "date": "2023-12-25",
+          "name": "Christmas Day",
+          "regions": ["US", "EU", "AU", "CA"],
+          "impact_level": "high",
+          "description": "Christmas celebration in Western countries"
+        },
+        {
+          "date": "2023-12-31",
+          "name": "New Year's Eve",
+          "regions": ["Global"],
+          "impact_level": "medium",
+          "description": "New Year's Eve celebration"
+        }
+      ],
+      "regional": {
+        "US": [
+          {
+            "date": "2023-07-04",
+            "name": "Independence Day",
+            "impact_level": "medium",
+            "description": "US Independence Day"
+          },
+          {
+            "date": "2023-11-23",
+            "name": "Thanksgiving",
+            "impact_level": "high",
+            "description": "Thanksgiving Day"
+          }
+        ],
+        "EU": [
+          {
+            "date": "2023-05-01",
+            "name": "Labour Day",
+            "impact_level": "medium",
+            "description": "International Workers' Day"
+          }
+        ],
+        "AU": [
+          {
+            "date": "2023-01-26",
+            "name": "Australia Day",
+            "impact_level": "medium",
+            "description": "Australia's national day"
+          }
+        ]
+      }
+    }
+  },
+  "holiday_impact_factors": {
+    "traffic_reduction": {
+      "high": 0.3,
+      "medium": 0.6,
+      "low": 0.8
+    },
+    "error_rate_impact": {
+      "high": 1.5,
+      "medium": 1.2,
+      "low": 1.0
+    },
+    "latency_impact": {
+      "high": 1.3,
+      "medium": 1.1,
+      "low": 1.0
+    }
+  },
+  "business_impact": {
+    "release_restrictions": {
+      "high_impact_holidays": ["Christmas", "Chinese_New_Year", "Thanksgiving"],
+      "restriction_level": "no_releases",
+      "emergency_only": true
+    },
+    "monitoring_requirements": {
+      "extended_monitoring": true,
+      "monitoring_duration_hours": 48,
+      "alert_threshold_adjustment": 0.5
+    }
+  }
+}
+

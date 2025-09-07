@@ -1,0 +1,66 @@
+{
+  "normalization_parameters": {
+    "request_count": {
+      "min_value": 1000000,
+      "max_value": 10000000,
+      "method": "min_max",
+      "range": [0, 1]
+    },
+    "error_rate": {
+      "min_value": 0.001,
+      "max_value": 0.1,
+      "method": "min_max",
+      "range": [0, 1]
+    },
+    "latency_p95": {
+      "min_value": 50,
+      "max_value": 500,
+      "method": "min_max",
+      "range": [0, 1]
+    },
+    "traffic_trend_7d": {
+      "min_value": 0.5,
+      "max_value": 1.5,
+      "method": "min_max",
+      "range": [0, 1]
+    },
+    "traffic_seasonality_30d": {
+      "min_value": 0.8,
+      "max_value": 1.2,
+      "method": "min_max",
+      "range": [0, 1]
+    }
+  },
+  "scaling_factors": {
+    "request_count": {
+      "mean": 3500000,
+      "std": 1200000,
+      "method": "z_score"
+    },
+    "error_rate": {
+      "mean": 0.015,
+      "std": 0.008,
+      "method": "z_score"
+    },
+    "latency_p95": {
+      "mean": 180,
+      "std": 45,
+      "method": "z_score"
+    }
+  },
+  "feature_importance_weights": {
+    "request_count": 0.3,
+    "error_rate": 0.25,
+    "latency_p95": 0.25,
+    "traffic_trend_7d": 0.1,
+    "traffic_seasonality_30d": 0.1
+  },
+  "normalization_metadata": {
+    "created_date": "2023-12-31",
+    "data_period": "2023-01-01 to 2023-12-31",
+    "total_samples": 2920,
+    "missing_values_handled": true,
+    "outliers_removed": true
+  }
+}
+

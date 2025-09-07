@@ -1,0 +1,41 @@
+{
+  "scenario_id": "normal_scenario_001",
+  "scenario_type": "normal",
+  "description": "Normal traffic conditions with low uncertainty",
+  "traffic_multipliers": {
+    "weekday": 1.0,
+    "weekend": 0.8,
+    "holiday": 0.7,
+    "peak_hours": 1.2,
+    "off_peak_hours": 0.6
+  },
+  "uncertainty_level": "low",
+  "noise_parameters": {
+    "error_rate_noise_std": 0.005,
+    "latency_noise_std": 5,
+    "traffic_noise_std": 0.02,
+    "correlation_factor": 0.1
+  },
+  "trend_parameters": {
+    "growth_rate": 0.001,
+    "seasonality_amplitude": 0.1,
+    "seasonality_period": 365,
+    "trend_volatility": 0.05
+  },
+  "event_impacts": {
+    "special_events": [],
+    "maintenance_windows": [],
+    "external_factors": []
+  },
+  "performance_baseline": {
+    "error_rate": 0.01,
+    "latency_p95": 150,
+    "availability": 0.999
+  },
+  "simulation_parameters": {
+    "duration_days": 30,
+    "time_step_hours": 1,
+    "random_seed": 42
+  }
+}
+

@@ -1,0 +1,10 @@
+date,region,platform,request_count,error_rate,latency_p95,day_of_week,is_holiday,is_weekend,traffic_trend_7d,traffic_seasonality_30d,error_rate_ma_7d,latency_ma_7d,traffic_volatility,peak_hour_indicator
+2023-01-01,CN-North,iOS,2456789,0.012,145,6,1,1,0.95,1.02,0.011,142,0.15,0
+2023-01-01,CN-North,Android,3567891,0.015,167,6,1,1,0.98,1.05,0.014,165,0.18,0
+2023-01-01,CN-South,iOS,1876543,0.009,132,6,1,1,0.92,0.98,0.008,130,0.12,0
+2023-01-01,CN-South,Android,2987654,0.011,156,6,1,1,0.96,1.01,0.010,154,0.14,0
+2023-01-02,CN-North,iOS,2678901,0.013,142,0,0,0,0.97,1.03,0.012,140,0.16,1
+2023-01-02,CN-North,Android,3789012,0.014,165,0,0,0,0.99,1.06,0.013,163,0.19,1
+2023-01-02,CN-South,iOS,1987654,0.010,135,0,0,0,0.94,0.99,0.009,133,0.13,1
+2023-01-02,CN-South,Android,3087654,0.012,158,0,0,0,0.98,1.02,0.011,156,0.15,1
+

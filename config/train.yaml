@@ -1,0 +1,90 @@
+# 训练配置
+training:
+  # 基础设置
+  algorithm: "PPO"
+  total_timesteps: 1000000
+  seed: 42
+
+  # 环境设置
+  env:
+    id: "MobileRelease-v0"
+    num_envs: 4
+    async_render: false
+
+  # 模型保存设置
+  save:
+    checkpoint_interval: 10000  # 保存检查点的间隔步数
+    best_model_metric: "mean_reward"  # 用于选择最佳模型的指标
+    keep_last_n_checkpoints: 5  # 保留最近n个检查点
+
+  # 评估设置
+  evaluation:
+    eval_frequency: 50000  # 评估频率（步数）
+    n_eval_episodes: 10  # 每次评估的回合数
+    deterministic_eval: true  # 评估时是否使用确定性策略
+
+  # 日志和监控
+  logging:
+    tensorboard_log: "./logs/tensorboard/"
+    verbose: 1
+    log_interval: 10  # 日志记录间隔（回合数）
+
+  # 回调函数配置
+  callbacks:
+    checkpoint: true
+    early_stopping: true
+    curriculum_learning: true
+    domain_randomization: true
+
+  # 课程学习配置
+  curriculum:
+    enabled: true
+    levels:
+      - name: "easy"
+        description: "低不确定性，固定节假日模式"
+        uncertainty_level: 0.1
+        num_scenarios: 10
+        max_episode_length: 15
+
+      - name: "medium"
+        description: "中等不确定性，随机节假日"
+        uncertainty_level: 0.2
+        num_scenarios: 50
+        max_episode_length: 25
+
+      - name: "hard"
+        description: "高不确定性，极端场景"
+        uncertainty_level: 0.3
+        num_scenarios: 100
+        max_episode_length: 31
+
+    progression_criteria:
+      metric: "mean_reward"
+      threshold: 100.0
+      min_episodes: 10
+
+  # 域随机化配置
+  domain_randomization:
+    enabled: true
+    parameters:
+      traffic_baseline:
+        min: 800
+        max: 1200
+        distribution: "uniform"
+
+      weekend_factor:
+        min: 0.7
+        max: 0.9
+        distribution: "uniform"
+
+      holiday_factor:
+        min: 0.6
+        max: 0.8
+        distribution: "uniform"
+
+      version_impact_uncertainty:
+        min: 0.1
+        max: 0.4
+        distribution: "uniform"
+
+    update_frequency: 1000  # 参数更新频率（步数）

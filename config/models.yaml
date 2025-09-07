@@ -1,0 +1,60 @@
+# 模型配置
+models:
+  # PPO智能体配置
+  ppo:
+    # 基础参数
+    policy: "MlpPolicy"  # "MlpPolicy", "CnnPolicy", "MultiInputPolicy"
+    learning_rate:
+      initial: 3e-4
+      schedule: "linear"  # "constant", "linear", "cosine"
+      
+    # 训练参数
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    clip_range_vf: null
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    
+    # 高级参数
+    use_sde: false
+    sde_sample_freq: -1
+    target_kl: null
+    
+    # 策略网络配置
+    policy_kwargs:
+      net_arch: [64, 64]  # 隐藏层大小
+      activation_fn: "tanh"  # "tanh", "relu", "elu"
+      
+  # 不确定性模型配置
+  uncertainty:
+    type: "ensemble"  # "ensemble", "bayesian", "dropout"
+    num_models: 5  # 集成模型数量
+    dropout_rate: 0.1
+    input_dim: 50  # 根据状态维度调整
+    output_dim: 1
+    
+  # 版本影响模型配置
+  version_impact:
+    type: "neural_network"  # "neural_network", "linear", "polynomial"
+    hidden_layers: [32, 16]
+    activation: "relu"
+    learning_rate: 1e-3
+    batch_size: 32
+    epochs: 100
+    
+  # 流量预测模型配置（可选）
+  traffic_predictor:
+    enabled: false
+    type: "lstm"  # "lstm", "transformer", "linear"
+    sequence_length: 30
+    hidden_size: 64
+    num_layers: 2
+    dropout: 0.1
+    learning_rate: 1e-3
+    batch_size: 32
+    epochs: 100

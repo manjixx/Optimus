@@ -1,0 +1,60 @@
+# 正常场景配置
+scenario:
+  name: "normal"
+  description: "正常流量模式场景"
+  
+  # 不确定性配置
+  uncertainty:
+    level: 0.1  # 低不确定性
+    type: "gaussian"
+    parameters:
+      mean: 1.0
+      std: 0.1
+      
+  # 流量配置
+  traffic:
+    # 基础流量模式
+    baseline:
+      mean: 1000
+      std: 100
+      
+    # 趋势配置
+    trend:
+      enabled: false
+      slope: 0.0
+      
+    # 季节性配置
+    seasonality:
+      enabled: true
+      weekly_amplitude: 0.1  # 周内变化幅度
+      monthly_amplitude: 0.05  # 月内变化幅度
+      
+    # 随机波动
+    noise:
+      type: "gaussian"
+      std: 50
+      
+  # 版本影响配置
+  version_impact:
+    # 基础影响因子
+    base_factor: 1.0
+    uncertainty: 0.1
+    
+    # 影响持续时间
+    duration_days: 3
+    decay_rate: 0.3
+    
+  # 特殊事件配置
+  special_events:
+    enabled: false
+    probability: 0.0
+    
+  # 节假日配置
+  holidays:
+    enabled: true
+    impact_factor: 0.8  # 节假日流量降低20%
+    
+  # 周末配置
+  weekends:
+    enabled: true
+    impact_factor: 0.9  # 周末流量降低10%

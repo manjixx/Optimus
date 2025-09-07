@@ -1,0 +1,47 @@
+{
+  "data_source": "mobile_app_analytics",
+  "collection_period": {
+    "start_date": "2023-01-01",
+    "end_date": "2023-12-31",
+    "frequency": "daily_and_minute_level"
+  },
+  "regions": [
+    "CN-North",
+    "CN-South",
+    "CN-East",
+    "CN-West"
+  ],
+  "platforms": [
+    "iOS",
+    "Android"
+  ],
+  "metrics": {
+    "request_count": {
+      "description": "Total number of API requests per time period",
+      "unit": "count",
+      "data_type": "integer"
+    },
+    "error_rate": {
+      "description": "Percentage of failed requests",
+      "unit": "ratio",
+      "data_type": "float",
+      "range": [0.0, 1.0]
+    },
+    "latency_p95": {
+      "description": "95th percentile response time",
+      "unit": "milliseconds",
+      "data_type": "integer"
+    }
+  },
+  "data_quality": {
+    "completeness": 0.98,
+    "accuracy": 0.99,
+    "last_updated": "2023-12-31T23:59:59Z"
+  },
+  "notes": [
+    "Data includes both normal and peak traffic periods",
+    "Holiday and special event periods are marked",
+    "System maintenance windows excluded from analysis"
+  ]
+}
+

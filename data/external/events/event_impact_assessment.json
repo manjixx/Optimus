@@ -1,0 +1,121 @@
+{
+  "event_impact_categories": {
+    "very_high": {
+      "traffic_multiplier_range": [4.0, 10.0],
+      "error_rate_impact": 2.0,
+      "latency_impact": 1.8,
+      "availability_impact": 0.9,
+      "examples": ["Double_11_Shopping", "New_Year_Countdown", "Black_Friday"],
+      "release_recommendations": {
+        "avoid_releases": true,
+        "emergency_only": true,
+        "pre_event_preparation": 48,
+        "post_event_monitoring": 72
+      }
+    },
+    "high": {
+      "traffic_multiplier_range": [2.0, 4.0],
+      "error_rate_impact": 1.5,
+      "latency_impact": 1.4,
+      "availability_impact": 0.95,
+      "examples": ["Spring_Festival_Gala", "World_Cup_Final", "National_Congress"],
+      "release_recommendations": {
+        "avoid_releases": false,
+        "small_batch_only": true,
+        "pre_event_preparation": 24,
+        "post_event_monitoring": 48
+      }
+    },
+    "medium": {
+      "traffic_multiplier_range": [1.2, 2.0],
+      "error_rate_impact": 1.2,
+      "latency_impact": 1.2,
+      "availability_impact": 0.98,
+      "examples": ["Mid_Autumn_Festival", "National_Examination"],
+      "release_recommendations": {
+        "avoid_releases": false,
+        "normal_batch_size": true,
+        "pre_event_preparation": 12,
+        "post_event_monitoring": 24
+      }
+    },
+    "low": {
+      "traffic_multiplier_range": [1.0, 1.2],
+      "error_rate_impact": 1.0,
+      "latency_impact": 1.0,
+      "availability_impact": 0.99,
+      "examples": ["Summer_Solstice", "Technology_Conference"],
+      "release_recommendations": {
+        "avoid_releases": false,
+        "normal_operations": true,
+        "pre_event_preparation": 6,
+        "post_event_monitoring": 12
+      }
+    }
+  },
+  "event_type_characteristics": {
+    "entertainment": {
+      "peak_duration_hours": 4,
+      "traffic_pattern": "sharp_spike",
+      "user_behavior": "high_engagement",
+      "system_stress": "high"
+    },
+    "commerce": {
+      "peak_duration_hours": 24,
+      "traffic_pattern": "sustained_high",
+      "user_behavior": "transaction_heavy",
+      "system_stress": "very_high"
+    },
+    "political": {
+      "peak_duration_hours": 8,
+      "traffic_pattern": "gradual_increase",
+      "user_behavior": "information_seeking",
+      "system_stress": "medium"
+    },
+    "sports": {
+      "peak_duration_hours": 3,
+      "traffic_pattern": "sharp_spike",
+      "user_behavior": "real_time_engagement",
+      "system_stress": "high"
+    },
+    "cultural": {
+      "peak_duration_hours": 6,
+      "traffic_pattern": "moderate_increase",
+      "user_behavior": "social_sharing",
+      "system_stress": "medium"
+    },
+    "education": {
+      "peak_duration_hours": 8,
+      "traffic_pattern": "sustained_moderate",
+      "user_behavior": "information_access",
+      "system_stress": "medium"
+    },
+    "business": {
+      "peak_duration_hours": 8,
+      "traffic_pattern": "gradual_increase",
+      "user_behavior": "professional_use",
+      "system_stress": "low"
+    }
+  },
+  "mitigation_strategies": {
+    "capacity_scaling": {
+      "auto_scaling_enabled": true,
+      "scaling_threshold": 0.8,
+      "max_scale_factor": 3.0,
+      "scaling_cooldown_minutes": 5
+    },
+    "traffic_management": {
+      "rate_limiting": true,
+      "circuit_breaker": true,
+      "load_balancing": "round_robin",
+      "caching_strategy": "aggressive"
+    },
+    "monitoring_enhancement": {
+      "real_time_alerts": true,
+      "performance_dashboards": true,
+      "automated_rollback": true,
+      "incident_response_team": "on_call"
+    }
+  }
+}
+

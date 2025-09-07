@@ -1,0 +1,86 @@
+# 应用层配置
+application:
+  # 决策支持系统配置
+  decision_system:
+    # 推荐生成配置
+    recommendation:
+      max_recommendations: 5
+      confidence_threshold: 0.7
+      include_alternatives: true
+      
+    # 风险评估配置
+    risk_assessment:
+      enabled: true
+      risk_levels: ["low", "medium", "high", "critical"]
+      risk_factors:
+        traffic_variance: 0.3
+        uncertainty_level: 0.4
+        rule_violations: 0.2
+        
+  # 可视化配置
+  visualization:
+    # 图表配置
+    charts:
+      traffic_curve:
+        width: 1200
+        height: 600
+        show_confidence_interval: true
+        
+      release_calendar:
+        width: 1000
+        height: 400
+        show_holidays: true
+        
+      robustness_analysis:
+        width: 800
+        height: 600
+        show_worst_case: true
+        
+    # 导出配置
+    export:
+      formats: ["png", "svg", "pdf"]
+      dpi: 300
+      include_metadata: true
+      
+  # API配置
+  api:
+    # 服务器配置
+    server:
+      host: "0.0.0.0"
+      port: 8000
+      debug: false
+      
+    # 认证配置
+    authentication:
+      enabled: false
+      token_expiry: 3600  # 秒
+      
+    # 限流配置
+    rate_limiting:
+      enabled: true
+      requests_per_minute: 60
+      
+    # 响应配置
+    response:
+      max_response_size: 10485760  # 10MB
+      timeout: 30  # 秒
+      
+  # 可解释性配置
+  explainability:
+    # SHAP配置
+    shap:
+      enabled: true
+      max_features: 20
+      background_samples: 100
+      
+    # 决策树配置
+    decision_tree:
+      enabled: true
+      max_depth: 10
+      min_samples_split: 20
+      
+    # 特征重要性配置
+    feature_importance:
+      enabled: true
+      method: "permutation"  # "permutation" or "shap"
+      n_repeats: 10

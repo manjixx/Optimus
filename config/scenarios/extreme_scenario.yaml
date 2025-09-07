@@ -1,0 +1,77 @@
+# 极端场景配置
+scenario:
+  name: "extreme"
+  description: "极端流量波动场景"
+  
+  # 不确定性配置
+  uncertainty:
+    level: 0.4  # 高不确定性
+    type: "gaussian"
+    parameters:
+      mean: 1.0
+      std: 0.4
+      
+  # 流量配置
+  traffic:
+    # 基础流量模式
+    baseline:
+      mean: 1000
+      std: 200  # 更高的基础波动
+      
+    # 趋势配置
+    trend:
+      enabled: true
+      slope: 0.05  # 上升趋势
+      
+    # 季节性配置
+    seasonality:
+      enabled: true
+      weekly_amplitude: 0.3  # 更大的周内变化
+      monthly_amplitude: 0.2  # 更大的月内变化
+      
+    # 随机波动
+    noise:
+      type: "gaussian"
+      std: 150  # 更大的随机波动
+      
+    # 突发流量配置
+    spikes:
+      enabled: true
+      probability: 0.1  # 10%概率出现突发流量
+      magnitude: 2.0  # 突发流量是正常流量的2倍
+      duration: 2  # 持续2天
+      
+  # 版本影响配置
+  version_impact:
+    # 基础影响因子
+    base_factor: 1.5  # 更大的影响
+    uncertainty: 0.3  # 更高的不确定性
+    
+    # 影响持续时间
+    duration_days: 5
+    decay_rate: 0.2  # 更慢的衰减
+    
+  # 特殊事件配置
+  special_events:
+    enabled: true
+    probability: 0.15  # 15%概率出现特殊事件
+    events:
+      - type: "promotion"
+        impact_factor: 1.8
+        duration: 3
+      - type: "maintenance"
+        impact_factor: 0.5
+        duration: 1
+      - type: "emergency"
+        impact_factor: 2.5
+        duration: 1
+        
+  # 节假日配置
+  holidays:
+    enabled: true
+    impact_factor: 0.6  # 节假日流量降低40%
+    
+  # 周末配置
+  weekends:
+    enabled: true
+    impact_factor: 0.8  # 周末流量降低20%

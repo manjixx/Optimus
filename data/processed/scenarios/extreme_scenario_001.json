@@ -1,0 +1,72 @@
+{
+  "scenario_id": "extreme_scenario_001",
+  "scenario_type": "extreme",
+  "description": "Extreme traffic conditions with high uncertainty and stress testing",
+  "traffic_multipliers": {
+    "weekday": 2.5,
+    "weekend": 2.0,
+    "holiday": 1.8,
+    "peak_hours": 3.0,
+    "off_peak_hours": 1.5
+  },
+  "uncertainty_level": "high",
+  "noise_parameters": {
+    "error_rate_noise_std": 0.02,
+    "latency_noise_std": 20,
+    "traffic_noise_std": 0.1,
+    "correlation_factor": 0.3
+  },
+  "trend_parameters": {
+    "growth_rate": 0.01,
+    "seasonality_amplitude": 0.3,
+    "seasonality_period": 365,
+    "trend_volatility": 0.2
+  },
+  "event_impacts": {
+    "special_events": [
+      {
+        "event_name": "Double_11_Shopping",
+        "date": "2023-11-11",
+        "traffic_multiplier": 5.0,
+        "duration_hours": 24
+      },
+      {
+        "event_name": "Spring_Festival_Gala",
+        "date": "2023-01-21",
+        "traffic_multiplier": 3.0,
+        "duration_hours": 4
+      }
+    ],
+    "maintenance_windows": [
+      {
+        "start_time": "2023-03-15 02:00:00",
+        "end_time": "2023-03-15 06:00:00",
+        "impact_level": "high"
+      }
+    ],
+    "external_factors": [
+      {
+        "factor_name": "network_outage",
+        "probability": 0.05,
+        "impact_multiplier": 0.3
+      }
+    ]
+  },
+  "performance_baseline": {
+    "error_rate": 0.05,
+    "latency_p95": 300,
+    "availability": 0.95
+  },
+  "stress_conditions": {
+    "max_traffic_spike": 10.0,
+    "error_rate_spike": 0.2,
+    "latency_spike": 1000,
+    "recovery_time_minutes": 30
+  },
+  "simulation_parameters": {
+    "duration_days": 30,
+    "time_step_hours": 1,
+    "random_seed": 123
+  }
+}
+

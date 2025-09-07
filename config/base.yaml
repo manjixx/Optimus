@@ -1,0 +1,178 @@
+# 基础配置文件 - 包含所有模块的配置
+
+# 数据配置
+data:
+  # 原始数据路径
+  raw_path: "data/raw/"
+  # 处理后的数据路径
+  processed_path: "data/processed/"
+  # 外部数据路径
+  external_path: "data/external/"
+
+  # 数据文件名称
+  files:
+    traffic: "traffic_data.csv"
+    releases: "release_records.csv"
+    rules: "business_rules.json"
+    holidays: "holidays.csv"
+    events: "special_events.csv"
+
+  # 时间范围配置
+  time_range:
+    start_date: "2020-01-01"
+    end_date: "2023-12-31"
+
+  # 流量数据配置
+  traffic:
+    time_column: "timestamp"
+    value_column: "traffic_volume"
+    frequency: "5T"  # 5分钟间隔
+
+  # 版本发布数据配置
+  releases:
+    date_column: "release_date"
+    version_column: "version_id"
+    user_count_column: "user_count"
+    package_size_column: "package_size"
+    pilot_ratio_column: "pilot_ratio"
+
+  # 场景生成配置
+  scenarios:
+    count: 100  # 生成场景数量
+    uncertainty_level: 0.3  # 不确定性水平(0-1)
+    extreme_scenario_ratio: 0.1  # 极端场景比例
+
+  # 特征工程配置
+  features:
+    window_sizes: [7, 14, 30]  # 滑动窗口大小(天)
+    quantiles: [0.25, 0.5, 0.75]  # 分位数计算
+    trend_periods: [7, 14]  # 趋势计算周期
+
+# 环境配置
+environment:
+  # 时间配置
+  time:
+    current_day: 0
+    episode_length: 31  # 一个月31天
+    max_episode_length: 31
+    
+  # 状态配置
+  state:
+    normalization: true
+    features:
+      - "current_day"
+      - "days_remaining"
+      - "release_calendar"
+      - "version_info"
+      - "traffic_stats"
+      - "traffic_trend"
+      
+  # 动作配置
+  action:
+    space_type: "discrete"
+    num_actions: 2  # 0: 不发布, 1: 发布
+    
+  # 奖励配置
+  reward:
+    # 基础奖励权重
+    release_reward: 10.0
+    illegal_action_penalty: -100.0
+    
+    # 稳健性奖励权重
+    avg_variance_weight: 1.0
+    worst_variance_weight: 2.0
+    
+    # 流量平滑奖励
+    traffic_smoothness_weight: 0.1
+    
+  # 验证配置
+  validation:
+    allow_weekends: false
+    allow_holidays: false
+    min_days_between_releases: 2
+    
+  # 流量模拟配置
+  traffic_simulation:
+    base_traffic: 1000
+    base_variation: 0.1
+    weekend_factor: 0.9
+    holiday_factor: 0.8
+    
+  # 版本影响配置
+  version_impact:
+    uncertainty_factor: 0.3
+    duration_days: 3
+    decay_rate: 0.3
+    
+  # 场景配置
+  scenarios:
+    enabled: true
+    default_scenario: "normal"
+    scenario_types: ["normal", "extreme", "holiday"]
+    
+  # 不确定性配置
+  uncertainty:
+    enabled: true
+    num_scenarios: 100
+    uncertainty_level: 0.2
+
+# 模型配置
+models:
+  # PPO智能体配置
+  ppo:
+    # 基础参数
+    policy: "MlpPolicy"  # "MlpPolicy", "CnnPolicy", "MultiInputPolicy"
+    learning_rate:
+      initial: 3e-4
+      schedule: "linear"  # "constant", "linear", "cosine"
+      
+    # 训练参数
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    clip_range_vf: null
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    
+    # 高级参数
+    use_sde: false
+    sde_sample_freq: -1
+    target_kl: null
+    
+    # 策略网络配置
+    policy_kwargs:
+      net_arch: [64, 64]  # 隐藏层大小
+      activation_fn: "tanh"  # "tanh", "relu", "elu"
+      
+  # 不确定性模型配置
+  uncertainty:
+    type: "ensemble"  # "ensemble", "bayesian", "dropout"
+    num_models: 5  # 集成模型数量
+    dropout_rate: 0.1
+    input_dim: 50  # 根据状态维度调整
+    output_dim: 1
+    
+  # 版本影响模型配置
+  version_impact:
+    type: "neural_network"  # "neural_network", "linear", "polynomial"
+    hidden_layers: [32, 16]
+    activation: "relu"
+    learning_rate: 1e-3
+    batch_size: 32
+    epochs: 100
+    
+  # 流量预测模型配置（可选）
+  traffic_predictor:
+    enabled: false
+    type: "lstm"  # "lstm", "transformer", "linear"
+    sequence_length: 30
+    hidden_size: 64
+    num_layers: 2
+    dropout: 0.1
+    learning_rate: 1e-3
+    batch_size: 32
+    epochs: 100

@@ -1,0 +1,68 @@
+# 环境配置
+environment:
+  # 时间配置
+  time:
+    current_day: 0
+    episode_length: 31  # 一个月31天
+    max_episode_length: 31
+    
+  # 状态配置
+  state:
+    normalization: true
+    features:
+      - "current_day"
+      - "days_remaining"
+      - "release_calendar"
+      - "version_info"
+      - "traffic_stats"
+      - "traffic_trend"
+      
+  # 动作配置
+  action:
+    space_type: "discrete"
+    num_actions: 2  # 0: 不发布, 1: 发布
+    
+  # 奖励配置
+  reward:
+    # 基础奖励权重
+    release_reward: 10.0
+    illegal_action_penalty: -100.0
+    
+    # 稳健性奖励权重
+    avg_variance_weight: 1.0
+    worst_variance_weight: 2.0
+    
+    # 流量平滑奖励
+    traffic_smoothness_weight: 0.1
+    
+  # 验证配置
+  validation:
+    allow_weekends: false
+    allow_holidays: false
+    min_days_between_releases: 2
+    
+  # 流量模拟配置
+  traffic_simulation:
+    base_traffic: 1000
+    base_variation: 0.1
+    weekend_factor: 0.9
+    holiday_factor: 0.8
+    
+  # 版本影响配置
+  version_impact:
+    uncertainty_factor: 0.3
+    duration_days: 3
+    decay_rate: 0.3
+    
+  # 场景配置
+  scenarios:
+    enabled: true
+    default_scenario: "normal"
+    scenario_types: ["normal", "extreme", "holiday"]
+    
+  # 不确定性配置
+  uncertainty:
+    enabled: true
+    num_scenarios: 100
+    uncertainty_level: 0.2
+
