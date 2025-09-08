@@ -6,8 +6,8 @@ import yaml
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.monitor import Monitor
 
-from ..environment import MobileReleaseEnv
-from ..models import BaseAgent
+from environment import MobileReleaseEnv
+from models import BaseAgent
 from ..utils.logger import get_logger
 from ..utils.serialization import save_results, load_model
 from .metrics import calculate_metrics, calculate_robustness_metrics

@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from typing import Dict, Any, List, Optional
-from ..utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

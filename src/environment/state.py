@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Dict, Any, List
-from gym import spaces
-from ..utils.logger import get_logger
+from gymnasium import spaces
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -1,8 +1,8 @@
-import gym
-from gym import spaces
+import gymnasium as gym
+from gymnasium import spaces
 import numpy as np
 from typing import Dict, Any
-from ..utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -1,11 +1,12 @@
 from typing import Dict, Any, Optional, Callable
 import numpy as np
+import torch
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import VecEnv
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.policies import BasePolicy
 from .base_agent import BaseAgent
-from ..utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -31,6 +32,26 @@ class PPOAgent(BaseAgent):
             PPO模型实例
         """
         policy_kwargs = self.ppo_config.get('policy_kwargs', {})
+
+        # policy_kwargs = self.ppo_config.get('policy_kwargs', {}).copy()  # 创建副本以避免修改原始配置
+
+        # 处理激活函数字符串
+        activation_fn_str = policy_kwargs.get('activation_fn')
+        if activation_fn_str and isinstance(activation_fn_str, str):
+            # 将字符串映射到相应的激活函数类
+            activation_map = {
+                'tanh': torch.nn.Tanh,
+                'relu': torch.nn.ReLU,
+                'elu': torch.nn.ELU,
+                # 添加其他激活函数...
+            }
+
+            if activation_fn_str in activation_map:
+                policy_kwargs['activation_fn'] = activation_map[activation_fn_str]
+            else:
+                logger.warning(f"Unknown activation function: {activation_fn_str}, using default")
+                # 移除无效的激活函数参数，让PPO使用默认值
+                policy_kwargs.pop('activation_fn', None)
 
         # 处理学习率调度
         learning_rate = self.ppo_config['learning_rate']['initial']

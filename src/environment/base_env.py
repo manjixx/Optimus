@@ -1,10 +1,11 @@
-import gym
-from gym import spaces
+# import gym
+import gymnasium as gym
 import numpy as np
 from typing import Dict, Any, Tuple, Optional
 import yaml
 import os
-from ..utils.logger import get_logger
+from pathlib import Path
+from utils.logger import get_logger
 from .state import StateRepresentation
 from .action import ActionSpace
 from .reward import RewardCalculator
@@ -18,11 +19,12 @@ class BaseMobileReleaseEnv(gym.Env):
 
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, config_path: str = "config/base.yaml"):
+    def __init__(self, config_path: str = "config/base.yaml", **kwargs):
         """初始化环境
 
         Args:
             config_path: 配置文件路径
+            **kwargs: 其他参数（用于兼容性）
         """
         super(BaseMobileReleaseEnv, self).__init__()
 
@@ -51,25 +53,55 @@ class BaseMobileReleaseEnv(gym.Env):
 
         logger.info("Environment initialized")
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
-        """加载配置文件
+    def _load_config(self, config_path: str) -> dict:
+        try:
+            config_path_obj = Path(config_path)
 
-        Args:
-            config_path: 配置文件路径
+            # 如果路径是绝对路径且存在，直接使用
+            if config_path_obj.is_absolute() and config_path_obj.exists():
+                abs_config_path = config_path_obj
+            else:
+                # 获取项目根目录的几种可能方式
+                possible_roots = [
+                    Path(__file__).parent.parent.parent,  # src/environment -> 项目根目录
+                    Path.cwd(),
+                    Path(os.environ.get('PROJECT_ROOT', '')),
+                ]
 
-        Returns:
-            配置字典
-        """
-        with open(config_path, 'r') as f:
-            config = yaml.safe_load(f)
-        return config
+                # 尝试每种可能的根目录
+                for project_root in possible_roots:
+                    if not project_root:  # 跳过空路径
+                        continue
 
-    def reset(self) -> np.ndarray:
+                    abs_config_path = (project_root / config_path).resolve()
+
+                    if abs_config_path.exists():
+                        break
+                else:
+                    # 如果所有尝试都失败，抛出错误
+                    raise FileNotFoundError(f"Base config file not found: {config_path}")
+
+            with open(abs_config_path, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            return config
+        except Exception as e:
+            self.logger.error(f"加载基础配置文件失败: {str(e)}")
+            raise
+
+    def reset(self, seed=None, options=None) -> Tuple[np.ndarray, dict]:
         """重置环境状态
 
+        Args:
+            seed: 随机种子（可选）
+            options: 重置选项（可选）
+
         Returns:
-            初始状态观测值
+            初始状态观测值和信息字典
         """
+        # 设置随机种子（如果提供）
+        if seed is not None:
+            self._seed(seed)
+
         self.current_day = 0
         self.done = False
 
@@ -92,20 +124,32 @@ class BaseMobileReleaseEnv(gym.Env):
         )
 
         logger.info("Environment reset")
-        return self.state
+        return self.state, {}
 
-    def step(self, action: int) -> Tuple[np.ndarray, float, bool, Dict[str, Any]]:
+    def _seed(self, seed=None):
+        """设置随机种子
+
+        Args:
+            seed: 随机种子
+
+        Returns:
+            使用的随机种子
+        """
+        np.random.seed(seed)
+        return [seed]
+
+    def step(self, action: int) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
         """执行一个时间步
 
         Args:
             action: 要执行的动作
 
         Returns:
-            tuple: (观测值, 奖励, 是否结束, 信息字典)
+            tuple: (观测值, 奖励, 是否终止, 是否截断, 信息字典)
         """
         if self.done:
             logger.warning("Episode is already done, please reset the environment")
-            return self.state, 0.0, True, {}
+            return self.state, 0.0, True, False, {}
 
         # 验证动作
         is_valid, validation_msg = self.validator.validate_action(
@@ -127,8 +171,10 @@ class BaseMobileReleaseEnv(gym.Env):
         self.current_day += 1
 
         # 检查是否结束
+        terminated = False
+        truncated = False
         if self.current_day >= self.episode_length:
-            self.done = True
+            terminated = True
             logger.info("Episode completed")
 
         # 更新状态
@@ -155,7 +201,7 @@ class BaseMobileReleaseEnv(gym.Env):
             'total_releases': np.sum(self.release_calendar)
         }
 
-        return self.state, reward, self.done, info
+        return self.state, reward, terminated, truncated, info
 
     def render(self, mode: str = 'human') -> Optional[str]:
         """渲染当前环境状态

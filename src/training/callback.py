@@ -3,8 +3,8 @@ import numpy as np
 from typing import Dict, Any, Optional
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.vec_env import VecEnv
-from ..utils.logger import get_logger
-from ..utils.serialization import save_model
+from utils.logger import get_logger
+from utils.serialization import save_model
 
 logger = get_logger(__name__)
 

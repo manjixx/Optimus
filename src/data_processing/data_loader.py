@@ -3,7 +3,8 @@ import numpy as np
 import yaml
 import os
 from typing import Dict, Any, Tuple
-from ..utils.logger import get_logger
+from pathlib import Path
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -22,18 +23,41 @@ class DataLoader:
         self.processed_path = self.config['data']['processed_path']
         self.external_path = self.config['data']['external_path']
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
-        """加载配置文件
+    def _load_config(self, config_path: str) -> dict:
+        try:
+            config_path_obj = Path(config_path)
 
-        Args:
-            config_path: 配置文件路径
+            # 如果路径是绝对路径且存在，直接使用
+            if config_path_obj.is_absolute() and config_path_obj.exists():
+                abs_config_path = config_path_obj
+            else:
+                # 获取项目根目录的几种可能方式
+                possible_roots = [
+                    Path(__file__).parent.parent.parent,  # src/data_processing -> 项目根目录
+                    Path.cwd(),
+                    Path(os.environ.get('PROJECT_ROOT', '')),
+                ]
 
-        Returns:
-            配置字典
-        """
-        with open(config_path, 'r') as f:
-            config = yaml.safe_load(f)
-        return config
+                # 尝试每种可能的根目录
+                for project_root in possible_roots:
+                    if not project_root:  # 跳过空路径
+                        continue
+
+                    abs_config_path = (project_root / config_path).resolve()
+
+                    if abs_config_path.exists():
+                        break
+                else:
+                    # 如果所有尝试都失败，抛出错误
+                    raise FileNotFoundError(f"Data loader config file not found: {config_path}")
+
+            # 确保使用 UTF-8 编码
+            with open(abs_config_path, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            return config
+        except Exception as e:
+            self.logger.error(f"加载数据加载器配置文件失败: {str(e)}")
+            raise
 
     def load_traffic_data(self) -> pd.DataFrame:
         """加载流量数据

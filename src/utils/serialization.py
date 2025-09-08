@@ -4,7 +4,7 @@ import yaml
 import torch
 from typing import Any, Dict
 from stable_baselines3.common.save_util import save_to_pkl, load_from_pkl
-from src.utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

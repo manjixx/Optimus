@@ -3,15 +3,16 @@ import time
 from typing import Dict, Any, Optional, List, Tuple
 import numpy as np
 import yaml
+from pathlib import Path
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback, CallbackList
 from stable_baselines3.common.evaluation import evaluate_policy
 
-from ..environment import MobileReleaseEnv
-from ..models import PPOAgent
-from ..utils.logger import get_logger
-from ..utils.serialization import save_config, save_results
+from environment import MobileReleaseEnv
+from models import PPOAgent
+from utils.logger import get_logger
+from utils.serialization import save_config, save_results
 from .callback import TrainingCallback, CurriculumCallback, DomainRandomizationCallback
 from .curriculum import CurriculumManager
 from .domain_randomization import DomainRandomizer
@@ -28,6 +29,7 @@ class RLTrainer:
         Args:
             config_path: 训练配置文件路径
         """
+        self.logger = get_logger(__name__)
         self.config = self._load_config(config_path)
         self.training_config = self.config['training']
 
@@ -55,18 +57,47 @@ class RLTrainer:
 
         logger.info("RL Trainer initialized")
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
-        """加载配置文件
+    def _load_config(self, config_path: str) -> dict:
+        try:
+            # 首先尝试直接使用传入的路径
+            config_path_obj = Path(config_path)
 
-        Args:
-            config_path: 配置文件路径
+            # 如果路径是绝对路径且存在，直接使用
+            if config_path_obj.is_absolute() and config_path_obj.exists():
+                abs_config_path = config_path_obj
+            else:
+                # 获取项目根目录的几种可能方式
+                possible_roots = [
+                    # 方式1: 从当前文件位置计算
+                    Path(__file__).parent.parent.parent,  # src/training -> 项目根目录
+                    # 方式2: 从工作目录计算
+                    Path.cwd(),
+                    # 方式3: 从环境变量获取
+                    Path(os.environ.get('PROJECT_ROOT', '')),
+                ]
 
-        Returns:
-            配置字典
-        """
-        with open(config_path, 'r') as f:
-            config = yaml.safe_load(f)
-        return config
+                # 尝试每种可能的根目录
+                for project_root in possible_roots:
+                    if not project_root:  # 跳过空路径
+                        continue
+
+                    abs_config_path = (project_root / config_path).resolve()
+                    print(f"Trying config path: {abs_config_path}")
+
+                    if abs_config_path.exists():
+                        print(f"Found config at: {abs_config_path}")
+                        break
+                else:
+                    # 如果所有尝试都失败，抛出错误
+                    raise FileNotFoundError(f"Config file not found: {config_path}. "
+                                            f"Tried paths: {[str(project_root / config_path) for project_root in possible_roots if project_root]}")
+
+            with open(abs_config_path, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            return config
+        except Exception as e:
+            self.logger.error(f"加载配置文件失败: {str(e)}")
+            raise
 
     def _create_env(self, eval_mode: bool = False) -> Any:
         """创建环境
@@ -98,8 +129,8 @@ class RLTrainer:
             env = MobileReleaseEnv(**env_config)
             return Monitor(env)  # 包装环境以监控统计信息
 
-        # 创建向量化环境
-        num_envs = 1 if eval_mode else self.training_config['env']['num_envs']
+        # 创建向量化环境 - 暂时使用单个环境避免多进程问题
+        num_envs = 1  # 强制使用单个环境
 
         if num_envs == 1:
             return DummyVecEnv([make_env])
@@ -165,8 +196,7 @@ class RLTrainer:
         seed = self.training_config.get('seed')
         if seed is not None:
             np.random.seed(seed)
-            self.env.seed(seed)
-            self.eval_env.seed(seed)
+            # 不再调用 env.seed()，因为 Gymnasium 使用不同的方式设置种子
 
         logger.info("Training setup completed")
 

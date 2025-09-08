@@ -3,8 +3,8 @@ from typing import Dict, Any, Optional
 import numpy as np
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.vec_env import VecEnv
-from ..utils.logger import get_logger
-from ..utils.serialization import save_model, load_model
+from utils.logger import get_logger
+from utils.serialization import save_model, load_model
 
 logger = get_logger(__name__)
 

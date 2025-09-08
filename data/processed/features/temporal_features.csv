@@ -10,3 +10,4 @@ date,day_of_week,month,quarter,is_weekend,is_holiday,holiday_type,season,day_of_
 2023-01-09,0,1,1,0,0,None,Winter,9,2,0,0,0,0
 2023-01-10,1,1,1,0,0,None,Winter,10,2,0,0,0,0
 
+

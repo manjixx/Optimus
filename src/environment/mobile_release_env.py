@@ -1,9 +1,9 @@
 import numpy as np
 from typing import Dict, Any, List, Tuple
 from .base_env import BaseMobileReleaseEnv
-from ..data_processing.data_loader import DataLoader
-from ..data_processing.scenario_generator import ScenarioGenerator
-from ..utils.logger import get_logger
+from data_processing.data_loader import DataLoader
+from data_processing.scenario_generator import ScenarioGenerator
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -11,13 +11,18 @@ logger = get_logger(__name__)
 class MobileReleaseEnv(BaseMobileReleaseEnv):
     """手机发布环境实现类，增强版本支持多场景和真实数据"""
 
-    def __init__(self, config_path: str = "config/base.yaml"):
+    def __init__(self, config_path: str = "config/base.yaml", eval_mode: bool = False, **kwargs):
         """初始化手机发布环境
 
         Args:
             config_path: 配置文件路径（现在包含数据和环境配置）
+            eval_mode: 是否为评估模式
+            **kwargs: 其他参数（用于兼容性）
         """
         super(MobileReleaseEnv, self).__init__(config_path)
+        
+        # 保存评估模式标志
+        self.eval_mode = eval_mode
 
         # 初始化数据加载器和场景生成器
         self.data_loader = DataLoader(config_path)  # 使用同一个配置文件
@@ -30,14 +35,18 @@ class MobileReleaseEnv(BaseMobileReleaseEnv):
 
         logger.info("Mobile release environment initialized")
 
-    def reset(self) -> np.ndarray:
+    def reset(self, seed=None, options=None) -> Tuple[np.ndarray, dict]:
         """重置环境状态，包含场景初始化
 
+        Args:
+            seed: 随机种子（可选）
+            options: 重置选项（可选）
+
         Returns:
-            初始状态观测值
+            初始状态观测值和信息字典
         """
         # 调用父类重置
-        state = super(MobileReleaseEnv, self).reset()
+        state, info = super(MobileReleaseEnv, self).reset(seed=seed, options=options)
 
         # 加载或生成场景
         if self.scenarios is None:
@@ -51,27 +60,27 @@ class MobileReleaseEnv(BaseMobileReleaseEnv):
         self.scenario_traffic_baselines = scenario_data['traffic_baseline']
 
         logger.info(f"Environment reset with scenario {self.current_scenario}")
-        return state
+        return state, info
 
-    def step(self, action: int) -> Tuple[np.ndarray, float, bool, Dict[str, Any]]:
+    def step(self, action: int) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
         """执行一个时间步，考虑多场景影响
 
         Args:
             action: 要执行的动作
 
         Returns:
-            tuple: (观测值, 奖励, 是否结束, 信息字典)
+            tuple: (观测值, 奖励, 是否终止, 是否截断, 信息字典)
         """
         # 调用父类步骤
-        state, reward, done, info = super(MobileReleaseEnv, self).step(action)
+        state, reward, terminated, truncated, info = super(MobileReleaseEnv, self).step(action)
 
         # 在多场景下计算稳健性奖励
-        if done:
+        if terminated:
             robust_reward = self._calculate_robust_reward()
             reward += robust_reward
             info['robust_reward'] = robust_reward
 
-        return state, reward, done, info
+        return state, reward, terminated, truncated, info
 
     def _load_scenarios(self) -> None:
         """加载或生成场景数据"""

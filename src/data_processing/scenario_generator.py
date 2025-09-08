@@ -3,7 +3,7 @@ import numpy as np
 from typing import Dict, Any, List
 from .data_loader import DataLoader
 from .feature_engineer import FeatureEngineer
-from ..utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

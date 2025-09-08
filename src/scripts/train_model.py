@@ -10,8 +10,8 @@ import sys
 # 添加src目录到Python路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from src.training import RLTrainer
-from src.utils.logger import setup_logger
+from training import RLTrainer
+from utils.logger import setup_logger
 
 
 def parse_args():
