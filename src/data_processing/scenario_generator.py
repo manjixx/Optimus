@@ -4,6 +4,8 @@ from typing import Dict, Any, List
 from .data_loader import DataLoader
 from .feature_engineer import FeatureEngineer
 from utils.logger import get_logger
+import yaml
+import os
 
 logger = get_logger(__name__)
 
@@ -19,6 +21,118 @@ class ScenarioGenerator:
         """
         self.feature_engineer = FeatureEngineer(config_path)
         self.config = self.feature_engineer.config
+
+    def load_scenarios(self) -> List[Dict[str, Any]]:
+        """从文件加载场景数据
+
+        Returns:
+            场景列表，如果文件不存在则返回空列表
+        """
+        scenarios_path = os.path.join(self.config['data']['processed_path'], "scenarios", "traffic_scenarios.csv")
+
+        try:
+            if os.path.exists(scenarios_path):
+                scenarios_df = pd.read_csv(scenarios_path)
+                scenarios = []
+
+                # 按场景ID分组
+                for scenario_id, group in scenarios_df.groupby('scenario_id'):
+                    scenario = {
+                        'scenario_id': scenario_id,
+                        'scenario_name': group['scenario_name'].iloc[0],
+                        'scenario_traffic': group['scenario_traffic'].values,
+                        'traffic_baseline': group['scenario_traffic'].values
+                    }
+                    scenarios.append(scenario)
+
+                logger.info(f"Loaded {len(scenarios)} scenarios from file")
+                return scenarios
+        except Exception as e:
+            logger.warning(f"Failed to load scenarios from file: {e}")
+
+        return []
+
+    def generate_traffic_scenarios(self, traffic_features: pd.DataFrame) -> List[Dict[str, Any]]:
+        """生成流量场景
+
+        Args:
+            traffic_features: 流量特征数据
+
+        Returns:
+            流量场景列表
+        """
+        logger.info("Generating traffic scenarios")
+
+        n_scenarios = self.config['data']['scenarios']['count']
+        scenarios = []
+
+        # 获取基础流量数据
+        if 'daily_mean' in traffic_features.columns:
+            base_traffic = traffic_features['daily_mean'].values
+        else:
+            # 如果没有daily_mean列，使用第一个数值列
+            numeric_cols = traffic_features.select_dtypes(include=[np.number]).columns
+            if len(numeric_cols) > 0:
+                base_traffic = traffic_features[numeric_cols[0]].values
+            else:
+                # 如果没有数值列，创建默认流量
+                base_traffic = np.ones(30) * 1000  # 默认30天，每天1000
+
+        # 生成多个场景
+        for i in range(n_scenarios):
+            # 使用配置中的不确定性水平
+            uncertainty = self.config['data']['scenarios'].get('uncertainty', 0.2)
+            perturbation = np.random.normal(1.0, uncertainty, len(base_traffic))
+
+            # 应用扰动
+            scenario_traffic = base_traffic * perturbation
+
+            # 确保非负值
+            scenario_traffic = np.maximum(scenario_traffic, 0)
+
+            # 创建场景字典
+            scenario = {
+                'scenario_id': i,
+                'scenario_name': f'scenario_{i}',
+                'scenario_traffic': scenario_traffic,
+                'traffic_baseline': scenario_traffic,
+                'uncertainty': uncertainty
+            }
+
+            scenarios.append(scenario)
+
+        logger.info(f"Generated {len(scenarios)} traffic scenarios")
+        return scenarios
+
+    def generate_release_impact_scenarios(self, release_features: pd.DataFrame) -> List[Dict[str, Any]]:
+        """生成发布影响场景
+
+        Args:
+            release_features: 发布特征数据
+
+        Returns:
+            发布影响场景列表
+        """
+        logger.info("Generating release impact scenarios")
+
+        n_scenarios = self.config['data']['scenarios']['count']
+        scenarios = []
+
+        # 生成多个场景
+        for i in range(n_scenarios):
+            # 随机生成影响因子
+            impact_factor = np.random.uniform(0.8, 1.2)  # 影响因子在0.8到1.2之间
+
+            scenario = {
+                'scenario_id': i,
+                'impact_factor': impact_factor,
+                'description': f'Release impact scenario {i}'
+            }
+
+            scenarios.append(scenario)
+
+        logger.info(f"Generated {len(scenarios)} release impact scenarios")
+        return scenarios
 
     def load_scenario_config(self, scenario_name: str) -> Dict[str, Any]:
         """加载特定场景配置
@@ -62,7 +176,13 @@ class ScenarioGenerator:
         scenarios = []
         feature_data = self.feature_engineer.run_feature_engineering()
         traffic_data = feature_data['traffic_features']
-        base_traffic = traffic_data['daily_mean'].values
+
+        # 获取基础流量
+        if 'daily_mean' in traffic_data.columns:
+            base_traffic = traffic_data['daily_mean'].values
+        else:
+            numeric_cols = traffic_data.select_dtypes(include=[np.number]).columns
+            base_traffic = traffic_data[numeric_cols[0]].values if len(numeric_cols) > 0 else np.ones(30) * 1000
 
         for i in range(n_scenarios):
             # 使用场景特定的不确定性水平
@@ -100,29 +220,41 @@ class ScenarioGenerator:
         logger.info(f"Generated {len(scenarios)} {scenario_name} scenarios")
         return scenarios
 
-    def save_scenarios(self, traffic_scenarios: List[pd.DataFrame], impact_scenarios: List[Dict[str, Any]]):
+    def save_scenarios(self, traffic_scenarios: List[Dict[str, Any]], impact_scenarios: List[Dict[str, Any]]):
         """保存生成的场景
 
         Args:
             traffic_scenarios: 流量场景列表
             impact_scenarios: 影响场景列表
         """
-        import os
-        import json
-
         # 创建目录
         scenarios_path = os.path.join(self.config['data']['processed_path'], "scenarios")
         os.makedirs(scenarios_path, exist_ok=True)
 
         # 保存流量场景
-        traffic_scenarios_df = pd.concat(traffic_scenarios, ignore_index=True)
-        traffic_scenarios_path = os.path.join(scenarios_path, "traffic_scenarios.csv")
-        traffic_scenarios_df.to_csv(traffic_scenarios_path, index=False)
-        logger.info(f"Saved traffic scenarios to {traffic_scenarios_path}")
+        traffic_scenarios_list = []
+        for scenario in traffic_scenarios:
+            if 'scenario_df' in scenario:
+                traffic_scenarios_list.append(scenario['scenario_df'])
+            else:
+                # 创建简单的DataFrame
+                df = pd.DataFrame({
+                    'scenario_id': scenario.get('scenario_id', 0),
+                    'scenario_name': scenario.get('scenario_name', 'unknown'),
+                    'traffic_baseline': scenario.get('traffic_baseline', [])
+                })
+                traffic_scenarios_list.append(df)
+
+        if traffic_scenarios_list:
+            traffic_scenarios_df = pd.concat(traffic_scenarios_list, ignore_index=True)
+            traffic_scenarios_path = os.path.join(scenarios_path, "traffic_scenarios.csv")
+            traffic_scenarios_df.to_csv(traffic_scenarios_path, index=False)
+            logger.info(f"Saved traffic scenarios to {traffic_scenarios_path}")
 
         # 保存影响场景
         impact_scenarios_path = os.path.join(scenarios_path, "impact_scenarios.json")
         with open(impact_scenarios_path, 'w') as f:
+            import json
             json.dump(impact_scenarios, f, indent=4)
         logger.info(f"Saved impact scenarios to {impact_scenarios_path}")
 

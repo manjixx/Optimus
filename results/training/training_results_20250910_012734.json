@@ -1,0 +1,7 @@
+{
+    "total_timesteps": 17576,
+    "training_time": 20.748943567276,
+    "best_mean_reward": -Infinity,
+    "training_history": [],
+    "status": "interrupted"
+}

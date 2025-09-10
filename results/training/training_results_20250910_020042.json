@@ -1,0 +1,297 @@
+{
+    "total_timesteps": 1000000,
+    "training_time": 1700.8374812602997,
+    "best_mean_reward": -0.34584899999999996,
+    "training_history": [
+        {
+            "timesteps": 51200,
+            "eval_results": {
+                "mean_reward": -0.3990768,
+                "std_reward": 0.060037419637755905,
+                "min_reward": -0.542279,
+                "max_reward": -0.311929,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 18979.0162198746,
+                "worst_case_variance": 31616.67651997464,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439233.0215628
+        },
+        {
+            "timesteps": 102400,
+            "eval_results": {
+                "mean_reward": -0.3699574,
+                "std_reward": 0.07059361651764273,
+                "min_reward": -0.539187,
+                "max_reward": -0.269568,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 21101.43436066583,
+                "worst_case_variance": 45965.07899413343,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439320.2255921
+        },
+        {
+            "timesteps": 153600,
+            "eval_results": {
+                "mean_reward": -0.3621879,
+                "std_reward": 0.04458401724710325,
+                "min_reward": -0.414279,
+                "max_reward": -0.247281,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 16479.023875180013,
+                "worst_case_variance": 39735.760143975655,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439407.4710467
+        },
+        {
+            "timesteps": 204800,
+            "eval_results": {
+                "mean_reward": -0.3613185,
+                "std_reward": 0.0458283548150051,
+                "min_reward": -0.439064,
+                "max_reward": -0.298612,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 14991.151048539428,
+                "worst_case_variance": 23204.888148360867,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439494.9284234
+        },
+        {
+            "timesteps": 256000,
+            "eval_results": {
+                "mean_reward": -0.36863529999999994,
+                "std_reward": 0.05437128609670733,
+                "min_reward": -0.476238,
+                "max_reward": -0.299003,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 18208.705709678572,
+                "worst_case_variance": 31188.69803741398,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439581.650842
+        },
+        {
+            "timesteps": 307200,
+            "eval_results": {
+                "mean_reward": -0.34584899999999996,
+                "std_reward": 0.07484943240399354,
+                "min_reward": -0.512855,
+                "max_reward": -0.238567,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 22282.817590181992,
+                "worst_case_variance": 51459.15485475192,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439669.2109396
+        },
+        {
+            "timesteps": 358400,
+            "eval_results": {
+                "mean_reward": -0.38857569999999997,
+                "std_reward": 0.06093882481973212,
+                "min_reward": -0.529203,
+                "max_reward": -0.31989,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 19497.642548291835,
+                "worst_case_variance": 37496.932502733776,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439756.3262033
+        },
+        {
+            "timesteps": 409600,
+            "eval_results": {
+                "mean_reward": -0.3931241,
+                "std_reward": 0.07113754073968258,
+                "min_reward": -0.54421,
+                "max_reward": -0.314986,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 18920.60649186385,
+                "worst_case_variance": 28093.15600851501,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439843.536277
+        },
+        {
+            "timesteps": 460800,
+            "eval_results": {
+                "mean_reward": -0.36610899999999996,
+                "std_reward": 0.04912269735468523,
+                "min_reward": -0.441481,
+                "max_reward": -0.297538,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 18268.237432799924,
+                "worst_case_variance": 35034.960829364434,
+                "n_episodes": 10
+            },
+            "timestamp": 1757439931.1106079
+        },
+        {
+            "timesteps": 512000,
+            "eval_results": {
+                "mean_reward": -0.39705429999999997,
+                "std_reward": 0.057572070298105474,
+                "min_reward": -0.508199,
+                "max_reward": -0.312251,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 17752.910027766065,
+                "worst_case_variance": 30514.002860256733,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440017.3912737
+        },
+        {
+            "timesteps": 563200,
+            "eval_results": {
+                "mean_reward": -0.40031619999999996,
+                "std_reward": 0.06774147663699102,
+                "min_reward": -0.520131,
+                "max_reward": -0.291725,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 22237.269813013794,
+                "worst_case_variance": 47731.84226525855,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440103.875335
+        },
+        {
+            "timesteps": 614400,
+            "eval_results": {
+                "mean_reward": -0.3936401,
+                "std_reward": 0.045470469794032256,
+                "min_reward": -0.44737,
+                "max_reward": -0.330064,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 16566.19497640823,
+                "worst_case_variance": 26009.84789419441,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440190.7958581
+        },
+        {
+            "timesteps": 665600,
+            "eval_results": {
+                "mean_reward": -0.35157730000000004,
+                "std_reward": 0.0325362698140091,
+                "min_reward": -0.420774,
+                "max_reward": -0.312758,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 14854.363277062273,
+                "worst_case_variance": 21695.882986152134,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440277.5047684
+        },
+        {
+            "timesteps": 716800,
+            "eval_results": {
+                "mean_reward": -0.3712036,
+                "std_reward": 0.051252347291026575,
+                "min_reward": -0.441636,
+                "max_reward": -0.292737,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 17635.5414057096,
+                "worst_case_variance": 48921.33488989027,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440363.7469203
+        },
+        {
+            "timesteps": 768000,
+            "eval_results": {
+                "mean_reward": -0.36064989999999997,
+                "std_reward": 0.05058985626081577,
+                "min_reward": -0.42828,
+                "max_reward": -0.27663,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 15070.442097477626,
+                "worst_case_variance": 22104.7143142925,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440449.7893896
+        },
+        {
+            "timesteps": 819200,
+            "eval_results": {
+                "mean_reward": -0.37469579999999997,
+                "std_reward": 0.06347439834263889,
+                "min_reward": -0.515921,
+                "max_reward": -0.258052,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 16012.553766231635,
+                "worst_case_variance": 23324.76851338405,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440535.2413936
+        },
+        {
+            "timesteps": 870400,
+            "eval_results": {
+                "mean_reward": -0.39268289999999995,
+                "std_reward": 0.06725703356445331,
+                "min_reward": -0.506053,
+                "max_reward": -0.28753,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 16132.593477216491,
+                "worst_case_variance": 28193.980952335107,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440621.558962
+        },
+        {
+            "timesteps": 921600,
+            "eval_results": {
+                "mean_reward": -0.37155499999999997,
+                "std_reward": 0.05367191197078785,
+                "min_reward": -0.490594,
+                "max_reward": -0.284195,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 17778.369415415313,
+                "worst_case_variance": 27005.371735649387,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440707.4018059
+        },
+        {
+            "timesteps": 972800,
+            "eval_results": {
+                "mean_reward": -0.37686000000000003,
+                "std_reward": 0.046618748262903846,
+                "min_reward": -0.446264,
+                "max_reward": -0.322017,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 17103.58254350973,
+                "worst_case_variance": 24136.728946904226,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440792.9653578
+        },
+        {
+            "timesteps": 1001472,
+            "eval_results": {
+                "mean_reward": -0.3769127,
+                "std_reward": 0.05285475841974873,
+                "min_reward": -0.473717,
+                "max_reward": -0.268146,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 20122.05418741695,
+                "worst_case_variance": 28714.50778412311,
+                "n_episodes": 10
+            },
+            "timestamp": 1757440841.5081437
+        }
+    ],
+    "final_evaluation": {
+        "mean_reward": -0.3520763,
+        "std_reward": 0.0348407138849077,
+        "min_reward": -0.402974,
+        "max_reward": -0.296923,
+        "mean_episode_length": 31.0,
+        "mean_traffic_variance": 13671.491737743238,
+        "worst_case_variance": 22121.335453968848,
+        "n_episodes": 10
+    }
+}

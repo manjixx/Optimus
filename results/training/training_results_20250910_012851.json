@@ -1,0 +1,22 @@
+{
+    "total_timesteps": 63488,
+    "training_time": 70.56508111953735,
+    "best_mean_reward": -2.3233037616900218e+17,
+    "training_history": [
+        {
+            "timesteps": 51200,
+            "eval_results": {
+                "mean_reward": -2.3233037616900218e+17,
+                "std_reward": 8080880508326319.0,
+                "min_reward": -2.470379818335418e+17,
+                "max_reward": -2.1521396344099008e+17,
+                "mean_episode_length": 31.0,
+                "mean_traffic_variance": 5.581967628053294e+16,
+                "worst_case_variance": 8.268566638280226e+16,
+                "n_episodes": 10
+            },
+            "timestamp": 1757438917.8373876
+        }
+    ],
+    "status": "interrupted"
+}

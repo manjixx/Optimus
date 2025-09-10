@@ -669,10 +669,11 @@ python src/scripts/evaluate_model.py \
     --model models/best/ppo_mobile_release.zip \
     --scenario normal
 
-# 评估所有场景
+# 极速评估所有场景
 python src/scripts/evaluate_model.py \
     --model models/best/ppo_mobile_release.zip \
-    --scenario all
+    --scenario all \
+    --fast-mode
 
 # 与基准策略比较
 python src/scripts/evaluate_model.py \
@@ -711,6 +712,7 @@ python src/scripts/evaluate_model.py \
 - `--n-episodes`: 评估回合数
 - `--output`: 结果输出文件路径
 - `--log-level`: 日志级别
+- `--fast-mode`: 极速评估模式，减少场景数量
 
 #### 输出结果
 - 评估指标和性能数据
@@ -943,17 +945,46 @@ python -m memory_profiler src/scripts/train_model.py
 - 设置合理的资源限制
 - 实现资源清理和释放机制
 
-### 数据格式说明
+## 📊 数据格式说明
 
-#### 流量数据 (data/raw/traffic/traffic_data.csv)
+系统使用多种数据源来模拟手机版本发布环境。以下为各数据源的格式说明：
+
+### 1. 流量数据 (Traffic Data)
+流量数据用于模拟用户请求、错误率、延迟和流量体积，是强化学习环境的核心输入。
+
+#### 格式1：聚合数据（推荐）
+如果您不需要区分区域和平台，请使用聚合数据格式，每个时间戳只有一个记录。
+
+**文件位置**: `data/raw/traffic/traffic_data.csv`
+**示例**:
 ```csv
-timestamp,traffic_volume
-2020-01-01 00:00:00,1000.5
-2020-01-01 00:05:00,1002.3
+timestamp,request_count,error_rate,latency_p95,traffic_volume
+2023-01-01 00:00:00,1023,0.012,145,1023
+2023-01-01 00:01:00,1089,0.011,142,1089
+2023-01-01 00:02:00,1156,0.013,148,1156
 ...
 ```
 
-#### 版本发布记录 (data/raw/releases/release_records.csv)
+#### 格式2：多维度数据
+如果您需要按区域和平台分别建模，请使用多维度数据格式。注意：每个时间戳会对应多个记录（不同区域和平台组合），需要在预处理阶段按组处理时间连续性。
+
+**文件位置**: `data/raw/traffic/traffic_data.csv`
+**示例**:
+```csv
+timestamp,region,platform,request_count,error_rate,latency_p95,traffic_volume
+2023-01-01 00:00:00,CN-North,iOS,1023,0.012,145,1023
+2023-01-01 00:00:00,CN-North,Android,1456,0.015,167,1456
+2023-01-01 00:00:00,CN-South,iOS,789,0.009,132,789
+2023-01-01 00:00:00,CN-South,Android,1234,0.011,156,1234
+2023-01-01 00:01:00,CN-North,iOS,1089,0.011,142,1089
+...
+```
+
+### 2. 版本发布数据 (Release Data)
+版本发布数据记录历史版本发布信息，用于分析发布对流量的影响。
+
+**文件位置**: `data/raw/releases/release_records.csv`
+**示例**:
 ```csv
 release_date,version_id,user_count,package_size,pilot_ratio
 2020-01-15,v1.0.0,1000000,500,0.1
@@ -961,7 +992,11 @@ release_date,version_id,user_count,package_size,pilot_ratio
 ...
 ```
 
-#### 业务规则 (data/raw/rules/business_rules.json)
+### 3. 业务规则 (Business Rules)
+业务规则定义发布约束条件，如最小发布间隔、避开节假日等。
+
+**文件位置**: `data/raw/rules/business_rules.json`
+**示例**:
 ```json
 {
   "release_constraints": {
@@ -976,13 +1011,31 @@ release_date,version_id,user_count,package_size,pilot_ratio
 }
 ```
 
-#### 节假日数据 (data/external/holidays/holidays.csv)
+### 4. 节假日数据 (Holidays Data)
+节假日数据标记节假日日期，用于避开节假日发布。
+
+**文件位置**: `data/external/holidays/holidays.csv`
+**示例**:
 ```csv
 date,holiday_name,type
 2020-01-01,元旦,法定节假日
 2020-01-24,春节,法定节假日
 ...
 ```
+
+### 5. 事件数据 (Events Data)
+事件数据记录特殊事件（如促销活动、系统故障），这些事件可能导致流量异常。
+
+**文件位置**: `data/external/events/events.csv`
+**示例**:
+```csv
+date,event_name,impact_factor,description
+2020-06-18,促销活动,1.5,大型促销活动，流量增加50%
+2020-07-01,系统故障,0.5,系统故障导致流量下降50%
+...
+```
+
+注意：如果使用多维度流量数据，请确保在预处理阶段按区域和平台分组处理时间连续性，以避免时间戳重复错误。
 
 ## 📊 系统性能
 
@@ -1213,33 +1266,3 @@ pytest --cov=src tests/
 ## 📄 许可证
 
 本项目采用MIT许可证，详见LICENSE文件。
-
-## 🤝 贡献指南
-
-我们欢迎任何形式的贡献！请阅读CONTRIBUTING.md了解如何参与项目开发。
-
-### 贡献流程
-1. Fork项目仓库
-2. 创建特性分支
-3. 提交代码变更
-4. 创建Pull Request
-5. 代码审查和合并
-
-## 📞 联系我们
-
-如有问题或建议，请通过以下方式联系我们：
-- 邮箱：project-team@example.com
-- 项目Issue：https://github.com/your-org/mobile_release_rl_system/issues
-- 技术讨论：https://github.com/your-org/mobile_release_rl_system/discussions
-
-## 🙏 致谢
-
-感谢以下开源项目的支持：
-- [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
-- [OpenAI Gym](https://github.com/openai/gym)
-- [PyTorch](https://pytorch.org/)
-- [FastAPI](https://fastapi.tiangolo.com/)
-
----
-
-*最后更新：2024年1月*

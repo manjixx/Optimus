@@ -1,0 +1,2 @@
+,daily_mean,daily_std,daily_min,daily_max,rolling_mean_7d,rolling_std_7d,rolling_min_7d,rolling_max_7d,rolling_q25_7d,rolling_q50_7d,rolling_q75_7d,rolling_mean_14d,rolling_std_14d,rolling_min_14d,rolling_max_14d,rolling_q25_14d,rolling_q50_14d,rolling_q75_14d,rolling_mean_30d,rolling_std_30d,rolling_min_30d,rolling_max_30d,rolling_q25_30d,rolling_q50_30d,rolling_q75_30d,trend_7d,trend_14d,day_of_week,day_of_month,month,is_weekend
+2023-01-01,1178.0833333333333,264.5064175545392,789,1589,,,,,,,,,,,,,,,,,,,,,,,,6,1,1,1

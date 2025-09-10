@@ -54,14 +54,25 @@ class PPOAgent(BaseAgent):
                 policy_kwargs.pop('activation_fn', None)
 
         # 处理学习率调度
-        learning_rate = self.ppo_config['learning_rate']['initial']
-        learning_rate_schedule = self.ppo_config['learning_rate']['schedule']
+        learning_rate_config = self.ppo_config['learning_rate']
+        learning_rate_value = learning_rate_config['initial']
+        learning_rate_schedule = learning_rate_config['schedule']
+
+        # 确保 learning_rate_value 是数值类型
+        if not isinstance(learning_rate_value, (int, float)):
+            try:
+                learning_rate_value = float(learning_rate_value)
+            except (TypeError, ValueError):
+                logger.warning(f"Invalid learning rate: {learning_rate_value}, using default value 0.0003")
+                learning_rate_value = 0.0003
 
         if learning_rate_schedule != 'constant':
             # 创建学习率调度函数
             learning_rate = self._create_learning_rate_schedule(
-                learning_rate, learning_rate_schedule
+                learning_rate_value, learning_rate_schedule
             )
+        else:
+            learning_rate = learning_rate_value
 
         # 创建模型
         self.model = PPO(

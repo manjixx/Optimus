@@ -285,8 +285,8 @@ class RLTrainer:
         n_eval_episodes = self.training_config['evaluation']['n_eval_episodes']
         deterministic = self.training_config['evaluation']['deterministic_eval']
 
-        # 执行评估
-        mean_reward, std_reward = evaluate_policy(
+        # 执行评估 - 注意：当 return_episode_rewards=True 时，返回的是两个列表
+        episode_rewards, episode_lengths = evaluate_policy(
             self.agent.model,
             self.eval_env,
             n_eval_episodes=n_eval_episodes,
@@ -294,37 +294,33 @@ class RLTrainer:
             return_episode_rewards=True
         )
 
+        # 计算均值和标准差
+        mean_reward = float(np.mean(episode_rewards))
+        std_reward = float(np.std(episode_rewards))
+
         # 收集额外指标
-        episode_rewards = []
-        episode_lengths = []
         traffic_variances = []
 
+        # 我们需要重新运行评估来收集流量数据，因为 evaluate_policy 不提供这些信息
         for _ in range(n_eval_episodes):
             obs = self.eval_env.reset()
             done = False
-            episode_reward = 0
-            episode_length = 0
             traffic_values = []
 
             while not done:
                 action, _ = self.agent.model.predict(obs, deterministic=deterministic)
                 obs, reward, done, info = self.eval_env.step(action)
-                episode_reward += reward
-                episode_length += 1
 
                 if 'daily_traffic' in info[0]:
                     traffic_values.append(info[0]['daily_traffic'])
-
-            episode_rewards.append(episode_reward)
-            episode_lengths.append(episode_length)
 
             if traffic_values:
                 traffic_variances.append(np.var(traffic_values))
 
         # 计算额外指标
         metrics = {
-            'mean_reward': float(mean_reward),
-            'std_reward': float(std_reward),
+            'mean_reward': mean_reward,
+            'std_reward': std_reward,
             'min_reward': float(np.min(episode_rewards)),
             'max_reward': float(np.max(episode_rewards)),
             'mean_episode_length': float(np.mean(episode_lengths)),

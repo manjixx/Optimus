@@ -103,14 +103,25 @@ class StateRepresentation:
             ]
             state_components.extend(version_vec)
 
-        if 'traffic_stats' in self.state_config['features'] and traffic_history:
+        if 'traffic_stats' in self.state_config['features']:
             # 计算流量统计特征
-            traffic_array = np.array(traffic_history[-30:])  # 使用最近30天数据
-            if len(traffic_array) > 0:
+            traffic_array = np.array(traffic_history[-30:]) if traffic_history else np.array([])  # 使用最近30天数据
+
+            # 确保流量数据有效
+            if len(traffic_array) > 0 and np.any(np.isfinite(traffic_array)):
+                # 处理可能的 NaN 或 inf 值
+                traffic_array = np.nan_to_num(traffic_array, nan=1000.0, posinf=5000.0, neginf=0.0)
+
                 mean = np.mean(traffic_array)
-                std = np.std(traffic_array)
-                q25 = np.percentile(traffic_array, 25)
-                q75 = np.percentile(traffic_array, 75)
+                std = np.std(traffic_array) if len(traffic_array) > 1 else 0.0
+                q25 = np.percentile(traffic_array, 25) if len(traffic_array) > 1 else mean
+                q75 = np.percentile(traffic_array, 75) if len(traffic_array) > 1 else mean
+
+                # 确保统计值是有限的
+                mean = mean if np.isfinite(mean) else 1000.0
+                std = std if np.isfinite(std) else 0.0
+                q25 = q25 if np.isfinite(q25) else mean
+                q75 = q75 if np.isfinite(q75) else mean
 
                 traffic_stats = [
                     self._normalize_value(mean, 0, 5000),
@@ -123,17 +134,26 @@ class StateRepresentation:
                 # 填充默认值
                 state_components.extend([0.0, 0.0, 0.0, 0.0])
 
-        if 'traffic_trend' in self.state_config['features'] and len(traffic_history) >= 14:
+        if 'traffic_trend' in self.state_config['features'] and traffic_history and len(traffic_history) >= 14:
             # 计算流量趋势（最近7天与前7天的变化率）
-            recent_mean = np.mean(traffic_history[-7:])
-            previous_mean = np.mean(traffic_history[-14:-7])
+            recent_traffic = traffic_history[-7:]
+            previous_traffic = traffic_history[-14:-7]
 
-            if previous_mean > 0:
+            # 确保数据有效
+            recent_traffic = [x if np.isfinite(x) else 1000.0 for x in recent_traffic]
+            previous_traffic = [x if np.isfinite(x) else 1000.0 for x in previous_traffic]
+
+            recent_mean = np.mean(recent_traffic)
+            previous_mean = np.mean(previous_traffic)
+
+            if previous_mean > 1e-6:  # 避免除以零
                 trend = (recent_mean - previous_mean) / previous_mean
                 trend = np.clip(trend, -1.0, 1.0)  # 限制在-1到1之间
             else:
                 trend = 0.0
 
+            # 确保趋势值是有限的
+            trend = trend if np.isfinite(trend) else 0.0
             state_components.append(trend)
         else:
             state_components.append(0.0)  # 默认无趋势
@@ -147,7 +167,11 @@ class StateRepresentation:
             else:
                 state_components = state_components[:self.state_dim]
 
-        return np.array(state_components, dtype=np.float32)
+        # 转换为 numpy 数组并确保所有值都是有限的
+        state_vector = np.array(state_components, dtype=np.float32)
+        state_vector = np.nan_to_num(state_vector, nan=0.0, posinf=1.0, neginf=-1.0)
+
+        return state_vector
 
     def _normalize_value(self, value: float, min_val: float, max_val: float) -> float:
         """归一化值到[-1, 1]范围
@@ -163,8 +187,12 @@ class StateRepresentation:
         if not self.normalization:
             return value
 
+        # 确保值是有限的
+        if not np.isfinite(value):
+            return 0.0
+
         # 线性映射到[-1, 1]
-        if max_val - min_val == 0:
+        if max_val - min_val < 1e-6:  # 避免除以零
             return 0.0
 
         normalized = 2 * (value - min_val) / (max_val - min_val) - 1

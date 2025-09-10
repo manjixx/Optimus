@@ -101,10 +101,20 @@ class MobileReleaseEnv(BaseMobileReleaseEnv):
         scenario_data = self.scenario_generator.run_scenario_generation()
         self.scenarios = scenario_data['traffic_scenarios']
 
-        # 为每个场景提取流量基线
+        # 为每个场景提取流量基线 - 修复此处代码
         for i, scenario in enumerate(self.scenarios):
+            # 获取场景流量数据，确保它是NumPy数组格式
+            scenario_traffic = scenario['scenario_traffic']
+
+            # 如果scenario_traffic是Pandas Series或DataFrame，使用.values
+            # 如果已经是NumPy数组，直接使用
+            if hasattr(scenario_traffic, 'values'):
+                traffic_baseline = scenario_traffic.values
+            else:
+                traffic_baseline = scenario_traffic
+
             self.scenarios[i] = {
-                'traffic_baseline': scenario['scenario_traffic'].values,
+                'traffic_baseline': traffic_baseline,  # 直接使用数组，不调用.values
                 'impact_factors': scenario.get('impact_factors', {})
             }
 

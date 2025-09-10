@@ -1,0 +1,502 @@
+[
+    {
+        "scenario_id": 0,
+        "impact_factor": 1.16572934472828,
+        "description": "Release impact scenario 0"
+    },
+    {
+        "scenario_id": 1,
+        "impact_factor": 1.1321863687187022,
+        "description": "Release impact scenario 1"
+    },
+    {
+        "scenario_id": 2,
+        "impact_factor": 1.1112929788859476,
+        "description": "Release impact scenario 2"
+    },
+    {
+        "scenario_id": 3,
+        "impact_factor": 0.9172152158226075,
+        "description": "Release impact scenario 3"
+    },
+    {
+        "scenario_id": 4,
+        "impact_factor": 0.917067733141201,
+        "description": "Release impact scenario 4"
+    },
+    {
+        "scenario_id": 5,
+        "impact_factor": 1.1657693816815962,
+        "description": "Release impact scenario 5"
+    },
+    {
+        "scenario_id": 6,
+        "impact_factor": 0.8625332833745583,
+        "description": "Release impact scenario 6"
+    },
+    {
+        "scenario_id": 7,
+        "impact_factor": 0.8947057499825118,
+        "description": "Release impact scenario 7"
+    },
+    {
+        "scenario_id": 8,
+        "impact_factor": 0.8343095330116284,
+        "description": "Release impact scenario 8"
+    },
+    {
+        "scenario_id": 9,
+        "impact_factor": 0.8267065893236574,
+        "description": "Release impact scenario 9"
+    },
+    {
+        "scenario_id": 10,
+        "impact_factor": 1.1396805391464948,
+        "description": "Release impact scenario 10"
+    },
+    {
+        "scenario_id": 11,
+        "impact_factor": 0.9392963012027322,
+        "description": "Release impact scenario 11"
+    },
+    {
+        "scenario_id": 12,
+        "impact_factor": 1.1144238566811828,
+        "description": "Release impact scenario 12"
+    },
+    {
+        "scenario_id": 13,
+        "impact_factor": 0.9267794935190627,
+        "description": "Release impact scenario 13"
+    },
+    {
+        "scenario_id": 14,
+        "impact_factor": 1.1981961881036685,
+        "description": "Release impact scenario 14"
+    },
+    {
+        "scenario_id": 15,
+        "impact_factor": 1.1704406926630542,
+        "description": "Release impact scenario 15"
+    },
+    {
+        "scenario_id": 16,
+        "impact_factor": 0.9962109760899778,
+        "description": "Release impact scenario 16"
+    },
+    {
+        "scenario_id": 17,
+        "impact_factor": 1.1853709082512724,
+        "description": "Release impact scenario 17"
+    },
+    {
+        "scenario_id": 18,
+        "impact_factor": 1.1279211076909637,
+        "description": "Release impact scenario 18"
+    },
+    {
+        "scenario_id": 19,
+        "impact_factor": 0.8248181549564246,
+        "description": "Release impact scenario 19"
+    },
+    {
+        "scenario_id": 20,
+        "impact_factor": 0.8585892816696421,
+        "description": "Release impact scenario 20"
+    },
+    {
+        "scenario_id": 21,
+        "impact_factor": 1.0719856427542132,
+        "description": "Release impact scenario 21"
+    },
+    {
+        "scenario_id": 22,
+        "impact_factor": 0.8144748908976382,
+        "description": "Release impact scenario 22"
+    },
+    {
+        "scenario_id": 23,
+        "impact_factor": 1.0102497766167733,
+        "description": "Release impact scenario 23"
+    },
+    {
+        "scenario_id": 24,
+        "impact_factor": 0.8692135934767092,
+        "description": "Release impact scenario 24"
+    },
+    {
+        "scenario_id": 25,
+        "impact_factor": 0.8944734164993363,
+        "description": "Release impact scenario 25"
+    },
+    {
+        "scenario_id": 26,
+        "impact_factor": 1.1335153668488414,
+        "description": "Release impact scenario 26"
+    },
+    {
+        "scenario_id": 27,
+        "impact_factor": 0.971740178136061,
+        "description": "Release impact scenario 27"
+    },
+    {
+        "scenario_id": 28,
+        "impact_factor": 1.1206574433207928,
+        "description": "Release impact scenario 28"
+    },
+    {
+        "scenario_id": 29,
+        "impact_factor": 1.1586240557780627,
+        "description": "Release impact scenario 29"
+    },
+    {
+        "scenario_id": 30,
+        "impact_factor": 1.1273156700798337,
+        "description": "Release impact scenario 30"
+    },
+    {
+        "scenario_id": 31,
+        "impact_factor": 0.8895670948442256,
+        "description": "Release impact scenario 31"
+    },
+    {
+        "scenario_id": 32,
+        "impact_factor": 1.0656554838201646,
+        "description": "Release impact scenario 32"
+    },
+    {
+        "scenario_id": 33,
+        "impact_factor": 1.029204443331265,
+        "description": "Release impact scenario 33"
+    },
+    {
+        "scenario_id": 34,
+        "impact_factor": 1.0814347412986556,
+        "description": "Release impact scenario 34"
+    },
+    {
+        "scenario_id": 35,
+        "impact_factor": 0.8365283144958876,
+        "description": "Release impact scenario 35"
+    },
+    {
+        "scenario_id": 36,
+        "impact_factor": 1.0642100310984661,
+        "description": "Release impact scenario 36"
+    },
+    {
+        "scenario_id": 37,
+        "impact_factor": 0.9997856947824033,
+        "description": "Release impact scenario 37"
+    },
+    {
+        "scenario_id": 38,
+        "impact_factor": 0.9209368358363154,
+        "description": "Release impact scenario 38"
+    },
+    {
+        "scenario_id": 39,
+        "impact_factor": 0.9343230104884331,
+        "description": "Release impact scenario 39"
+    },
+    {
+        "scenario_id": 40,
+        "impact_factor": 1.1137007268295536,
+        "description": "Release impact scenario 40"
+    },
+    {
+        "scenario_id": 41,
+        "impact_factor": 1.0021783136294484,
+        "description": "Release impact scenario 41"
+    },
+    {
+        "scenario_id": 42,
+        "impact_factor": 1.0169996307223244,
+        "description": "Release impact scenario 42"
+    },
+    {
+        "scenario_id": 43,
+        "impact_factor": 1.0363371075484897,
+        "description": "Release impact scenario 43"
+    },
+    {
+        "scenario_id": 44,
+        "impact_factor": 0.8550395481421201,
+        "description": "Release impact scenario 44"
+    },
+    {
+        "scenario_id": 45,
+        "impact_factor": 0.8872838127956107,
+        "description": "Release impact scenario 45"
+    },
+    {
+        "scenario_id": 46,
+        "impact_factor": 0.883659495092,
+        "description": "Release impact scenario 46"
+    },
+    {
+        "scenario_id": 47,
+        "impact_factor": 1.1229966978261154,
+        "description": "Release impact scenario 47"
+    },
+    {
+        "scenario_id": 48,
+        "impact_factor": 0.8511575237095079,
+        "description": "Release impact scenario 48"
+    },
+    {
+        "scenario_id": 49,
+        "impact_factor": 0.9435706350474634,
+        "description": "Release impact scenario 49"
+    },
+    {
+        "scenario_id": 50,
+        "impact_factor": 1.177164009213909,
+        "description": "Release impact scenario 50"
+    },
+    {
+        "scenario_id": 51,
+        "impact_factor": 1.1949191326166302,
+        "description": "Release impact scenario 51"
+    },
+    {
+        "scenario_id": 52,
+        "impact_factor": 1.052706130232568,
+        "description": "Release impact scenario 52"
+    },
+    {
+        "scenario_id": 53,
+        "impact_factor": 0.8589665980988652,
+        "description": "Release impact scenario 53"
+    },
+    {
+        "scenario_id": 54,
+        "impact_factor": 0.9776823704394653,
+        "description": "Release impact scenario 54"
+    },
+    {
+        "scenario_id": 55,
+        "impact_factor": 1.1341803845345035,
+        "description": "Release impact scenario 55"
+    },
+    {
+        "scenario_id": 56,
+        "impact_factor": 0.8574084309996527,
+        "description": "Release impact scenario 56"
+    },
+    {
+        "scenario_id": 57,
+        "impact_factor": 0.8008547768584223,
+        "description": "Release impact scenario 57"
+    },
+    {
+        "scenario_id": 58,
+        "impact_factor": 0.9610864320819965,
+        "description": "Release impact scenario 58"
+    },
+    {
+        "scenario_id": 59,
+        "impact_factor": 1.0166443871755961,
+        "description": "Release impact scenario 59"
+    },
+    {
+        "scenario_id": 60,
+        "impact_factor": 0.9502971471746225,
+        "description": "Release impact scenario 60"
+    },
+    {
+        "scenario_id": 61,
+        "impact_factor": 0.8180481963022583,
+        "description": "Release impact scenario 61"
+    },
+    {
+        "scenario_id": 62,
+        "impact_factor": 0.8943076610132737,
+        "description": "Release impact scenario 62"
+    },
+    {
+        "scenario_id": 63,
+        "impact_factor": 1.0487919126447225,
+        "description": "Release impact scenario 63"
+    },
+    {
+        "scenario_id": 64,
+        "impact_factor": 0.8371633520002676,
+        "description": "Release impact scenario 64"
+    },
+    {
+        "scenario_id": 65,
+        "impact_factor": 0.8147264908482293,
+        "description": "Release impact scenario 65"
+    },
+    {
+        "scenario_id": 66,
+        "impact_factor": 1.1684660573849979,
+        "description": "Release impact scenario 66"
+    },
+    {
+        "scenario_id": 67,
+        "impact_factor": 0.848165543798536,
+        "description": "Release impact scenario 67"
+    },
+    {
+        "scenario_id": 68,
+        "impact_factor": 1.1359926475476039,
+        "description": "Release impact scenario 68"
+    },
+    {
+        "scenario_id": 69,
+        "impact_factor": 0.8388934349736762,
+        "description": "Release impact scenario 69"
+    },
+    {
+        "scenario_id": 70,
+        "impact_factor": 0.9615739834751161,
+        "description": "Release impact scenario 70"
+    },
+    {
+        "scenario_id": 71,
+        "impact_factor": 1.1930346777773164,
+        "description": "Release impact scenario 71"
+    },
+    {
+        "scenario_id": 72,
+        "impact_factor": 0.8737018361730707,
+        "description": "Release impact scenario 72"
+    },
+    {
+        "scenario_id": 73,
+        "impact_factor": 1.0014519378575326,
+        "description": "Release impact scenario 73"
+    },
+    {
+        "scenario_id": 74,
+        "impact_factor": 0.8592984079623326,
+        "description": "Release impact scenario 74"
+    },
+    {
+        "scenario_id": 75,
+        "impact_factor": 1.126062854359413,
+        "description": "Release impact scenario 75"
+    },
+    {
+        "scenario_id": 76,
+        "impact_factor": 0.8491736575003583,
+        "description": "Release impact scenario 76"
+    },
+    {
+        "scenario_id": 77,
+        "impact_factor": 1.082171395779869,
+        "description": "Release impact scenario 77"
+    },
+    {
+        "scenario_id": 78,
+        "impact_factor": 0.867703344974065,
+        "description": "Release impact scenario 78"
+    },
+    {
+        "scenario_id": 79,
+        "impact_factor": 1.1851263478308376,
+        "description": "Release impact scenario 79"
+    },
+    {
+        "scenario_id": 80,
+        "impact_factor": 1.1047583757926536,
+        "description": "Release impact scenario 80"
+    },
+    {
+        "scenario_id": 81,
+        "impact_factor": 0.9567502840241878,
+        "description": "Release impact scenario 81"
+    },
+    {
+        "scenario_id": 82,
+        "impact_factor": 0.954592682108711,
+        "description": "Release impact scenario 82"
+    },
+    {
+        "scenario_id": 83,
+        "impact_factor": 0.9957960469942757,
+        "description": "Release impact scenario 83"
+    },
+    {
+        "scenario_id": 84,
+        "impact_factor": 0.806944386701357,
+        "description": "Release impact scenario 84"
+    },
+    {
+        "scenario_id": 85,
+        "impact_factor": 1.1313166672542663,
+        "description": "Release impact scenario 85"
+    },
+    {
+        "scenario_id": 86,
+        "impact_factor": 1.003140146915972,
+        "description": "Release impact scenario 86"
+    },
+    {
+        "scenario_id": 87,
+        "impact_factor": 0.8745953598753518,
+        "description": "Release impact scenario 87"
+    },
+    {
+        "scenario_id": 88,
+        "impact_factor": 0.8161061271654855,
+        "description": "Release impact scenario 88"
+    },
+    {
+        "scenario_id": 89,
+        "impact_factor": 1.1786186239774972,
+        "description": "Release impact scenario 89"
+    },
+    {
+        "scenario_id": 90,
+        "impact_factor": 1.1334419398292603,
+        "description": "Release impact scenario 90"
+    },
+    {
+        "scenario_id": 91,
+        "impact_factor": 0.8874785919684197,
+        "description": "Release impact scenario 91"
+    },
+    {
+        "scenario_id": 92,
+        "impact_factor": 1.0875153233829935,
+        "description": "Release impact scenario 92"
+    },
+    {
+        "scenario_id": 93,
+        "impact_factor": 0.8413479031067385,
+        "description": "Release impact scenario 93"
+    },
+    {
+        "scenario_id": 94,
+        "impact_factor": 1.1596008064926218,
+        "description": "Release impact scenario 94"
+    },
+    {
+        "scenario_id": 95,
+        "impact_factor": 1.0135276102286281,
+        "description": "Release impact scenario 95"
+    },
+    {
+        "scenario_id": 96,
+        "impact_factor": 1.1602329340557682,
+        "description": "Release impact scenario 96"
+    },
+    {
+        "scenario_id": 97,
+        "impact_factor": 0.9216461069355633,
+        "description": "Release impact scenario 97"
+    },
+    {
+        "scenario_id": 98,
+        "impact_factor": 1.1346007148707753,
+        "description": "Release impact scenario 98"
+    },
+    {
+        "scenario_id": 99,
+        "impact_factor": 0.9993469550012141,
+        "description": "Release impact scenario 99"
+    }
+]

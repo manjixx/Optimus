@@ -17,6 +17,11 @@ class RewardCalculator:
         self.config = config
         self.reward_config = config['reward']
 
+        # 添加奖励缩放参数
+        self.reward_scale = self.reward_config.get('reward_scale', 0.01)
+        self.max_reward = self.reward_config.get('max_reward', 100)
+        self.min_reward = self.reward_config.get('min_reward', -100)
+
         logger.info("Reward calculator initialized")
 
     def calculate_reward(self, action: int, is_valid: bool,
@@ -49,6 +54,10 @@ class RewardCalculator:
             traffic_reward = self._calculate_traffic_reward(traffic_history)
             reward += traffic_reward
 
+        # 缩放和裁剪奖励以防止数值不稳定
+        reward = np.clip(reward, self.min_reward, self.max_reward)
+        reward *= self.reward_scale
+
         return reward
 
     def _calculate_release_reward(self) -> float:
@@ -70,17 +79,24 @@ class RewardCalculator:
             流量奖励值
         """
         # 使用最近一段时间的数据
-        recent_traffic = traffic_history[-7:] if len(traffic_history) >= 7 else traffic_history
+        recent_traffic = np.array(traffic_history[-7:]) if len(traffic_history) >= 7 else np.array(traffic_history)
 
         if len(recent_traffic) < 2:
             return 0.0
+
+        # 添加小值以防止除零错误
+        epsilon = 1e-5
+        recent_traffic = np.where(recent_traffic == 0, epsilon, recent_traffic)
 
         # 计算流量变化率
         changes = np.diff(recent_traffic)
         relative_changes = np.abs(changes / recent_traffic[:-1])
 
-        # 惩罚大的流量变化
-        penalty = -np.mean(relative_changes) * 100
+        # 使用arctan平滑变化率，防止极端值
+        smoothed_changes = np.arctan(relative_changes)
+
+        # 惩罚大的流量变化（使用较小的缩放因子）
+        penalty = -np.mean(smoothed_changes) * 10
 
         return penalty
 
@@ -96,6 +112,10 @@ class RewardCalculator:
         if not scenario_variances:
             return 0.0
 
+        # 添加小值以防止NaN
+        scenario_variances = np.array(scenario_variances)
+        scenario_variances = np.where(scenario_variances == 0, 1e-5, scenario_variances)
+
         avg_variance = np.mean(scenario_variances)
         worst_variance = np.max(scenario_variances)
 
@@ -103,5 +123,9 @@ class RewardCalculator:
                 self.reward_config['avg_variance_weight'] * avg_variance +
                 self.reward_config['worst_variance_weight'] * worst_variance
         )
+
+        # 缩放稳健性奖励
+        robust_reward = np.clip(robust_reward, self.min_reward, self.max_reward)
+        robust_reward *= self.reward_scale
 
         return robust_reward
